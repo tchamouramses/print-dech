@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Filament\Resources\Transactions\Tables;
+
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
+
+class TransactionsTable
+{
+    public static function configure(Table $table): Table
+    {
+        return $table
+            ->columns([
+                TextColumn::make('client.name')
+                    ->label('Client')
+                    ->searchable(),
+                TextColumn::make('user.name')
+                    ->label('Employé')
+                    ->searchable(),
+                TextColumn::make('contact.phone')
+                    ->label('Numéro')
+                    ->searchable(),
+                TextColumn::make('amount')
+                    ->label('Montant')
+                    ->prefix('XAF ')
+                    ->money()
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('sender')
+                    ->label('Commissionaire')
+                    ->searchable(),
+                TextColumn::make('created_at')
+                    ->label('Date')
+                    ->dateTime()
+                    ->sortable(),
+            ])
+            ->filters([
+                SelectFilter::make('client_id')
+                    ->label('Client')
+                    ->options(function () {
+                        return \App\Models\Client::all()->pluck('name', 'id')->toArray();
+                    })
+                    ->searchable(),
+                SelectFilter::make('user_id')
+                    ->label('Employé')
+                    ->options(function () {
+                        return \App\Models\User::all()->pluck('name', 'id')->toArray();
+                    })
+                    ->searchable()
+            ])
+            ->recordActions([
+                EditAction::make()->iconButton(),
+                DeleteAction::make()->iconButton(),
+            ])
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                ]),
+            ]);
+    }
+}
