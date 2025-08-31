@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Transactions\Tables;
 
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -56,6 +57,22 @@ class TransactionsTable
             ->recordActions([
                 EditAction::make()->iconButton(),
                 DeleteAction::make()->iconButton(),
+                Action::make('print')
+                    ->iconButton()
+                    ->color('success')
+                    ->requiresConfirmation()
+                    ->modalCancelActionLabel('Annuler')
+                    ->modalSubmitActionLabel('Imprimer')
+                    ->modalDescription('Voulez-vous imprimer cette facture ?')
+                    ->label('Imprimer la Facture')
+                    ->modalIcon('heroicon-o-printer')
+                    ->action(function (\App\Models\Transaction $record) {
+                        $invoiceService = new \App\Services\InvoiceService();
+                        $invoiceService->printInvoice($record);
+                    })
+                    // ->url(fn (\App\Models\Transaction $record): string => route('in', $record))
+                    // ->openUrlInNewTab()
+                    ->icon('heroicon-o-printer')
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
