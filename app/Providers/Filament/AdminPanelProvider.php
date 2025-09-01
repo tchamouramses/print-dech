@@ -31,7 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->colors([
                 'primary' => Color::Stone,
-                'secondary' => Color::Cyan,
+                'secondary' => Color::Green,
             ])
             ->spa()
             ->userMenuItems([
