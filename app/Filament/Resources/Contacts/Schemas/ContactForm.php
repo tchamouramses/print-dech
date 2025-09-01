@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Contacts\Schemas;
 
+use App\Models\Enums\ContactOperatorEnum;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
@@ -18,6 +20,11 @@ class ContactForm
                     ->label('Numéro de Téléphone')
                     ->tel()
                     ->required(),
+                Select::make('operateur')
+                    ->label('Opérateur Mobile')
+                    ->required()
+                    ->columnSpanFull()
+                    ->options(ContactOperatorEnum::class),
             ]);
     }
 }

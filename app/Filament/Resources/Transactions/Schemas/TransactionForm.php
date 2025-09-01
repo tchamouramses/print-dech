@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Transactions\Schemas;
 
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
@@ -25,6 +26,14 @@ class TransactionForm
                     ->prefix('XAF')
                     ->required()
                     ->numeric(),
+                TextInput::make('identifier')
+                    ->label('Numéro de la Transaction')
+                    ->required(),
+                DateTimePicker::make('date')
+                    ->label('Date de la transaction')
+                    ->native(false)
+                    ->default(now())
+                    ->required(),
                 TextInput::make('sender')
                     ->label('Commissionaire')
                     ->required(),

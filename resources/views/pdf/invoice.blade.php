@@ -128,11 +128,11 @@
 
         <!-- HEADER -->
         <div class="header">
-            <h1>FACTURE</h1>
+            <h1>REÇU DE VERSEMENT/RETRAIT</h1>
             <table>
                 <tr>
                     <td>Ref: <strong>{{ $transaction->reference }}</strong></td>
-                    <td align="right">Date : {{ $transaction->created_at->translatedFormat('d M Y') }}</td>
+                    <td align="right">Date : {{ Illuminate\Support\Carbon::parse($transaction->date)->translatedFormat('d M Y') }}</td>
                 </tr>
             </table>
         </div>
@@ -144,6 +144,7 @@
                 <tr>
                     <td><span class="label">Nom</span><br><span class="value">{{ $enterprise->name }}</span></td>
                     <td><span class="label">Téléphone</span><br><span class="value">{{ $enterprise->phone1 . (isset($enterprise->phone2) ? '/' . $enterprise->phone2 : '') }}</span></td>
+                    <td><span class="label">Registre</span><br><span class="value">{{ $enterprise->trade_register }}</span></td>
                 </tr>
                 <tr>
                     <td><span class="label">Siège social</span><br><span class="value"> {{ $enterprise->head_office }} </span></td>
@@ -159,8 +160,6 @@
                 <tr>
                     <td><span class="label">Nom</span><br><span class="value">{{$transaction->client->name}} </span></td>
                     <td><span class="label">Téléphone</span><br><span class="value">{{$transaction->client->phone}}</span></td>
-                </tr>
-                <tr>
                     <td><span class="label">Commissionnaire</span><br><span class="value">{{$transaction->sender}}</span></td>
                 </tr>
             </table>
@@ -172,12 +171,12 @@
             <div class="transaction-box">
                 <div class="transaction-header">
                     <span class="transaction-id">{{ $transaction->reference }}</span>
-                    <span class="transaction-time">{{ $transaction->created_at->format('h:i') }}</span>
+                    <span class="transaction-time">{{ Illuminate\Support\Carbon::parse($transaction->date)->format('h:i') }}</span>
                 </div>
                 <table width="100%">
                     <tr>
                         <td>
-                            <span class="label">Employé</span><br>
+                            <span class="label">Caissier(ère)</span><br>
                             <span class="value">{{ $transaction->user->name }}</span>
                         </td>
                         <td class="amount">{{ $transaction->amount }} FCFA</td>

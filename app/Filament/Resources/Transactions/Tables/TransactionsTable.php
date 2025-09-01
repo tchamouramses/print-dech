@@ -22,7 +22,7 @@ class TransactionsTable
                     ->label('Client')
                     ->searchable(),
                 TextColumn::make('user.name')
-                    ->label('Employé')
+                    ->label('Caissier(ère)')
                     ->searchable(),
                 TextColumn::make('contact.phone')
                     ->label('Numéro')
@@ -33,10 +33,13 @@ class TransactionsTable
                     ->money()
                     ->numeric()
                     ->sortable(),
+                TextColumn::make('identifier')
+                    ->label('Numéro de trans')
+                    ->searchable(),
                 TextColumn::make('sender')
                     ->label('Commissionaire')
                     ->searchable(),
-                TextColumn::make('created_at')
+                TextColumn::make('date')
                     ->label('Date')
                     ->dateTime()
                     ->sortable(),

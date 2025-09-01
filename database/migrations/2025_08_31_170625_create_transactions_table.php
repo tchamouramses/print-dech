@@ -22,6 +22,8 @@ return new class extends Migration
             $table->double('amount');
             $table->string('sender');
             $table->string('reference')->unique();
+            $table->string('identifier')->unique();
+            $table->dateTime('date');
             $table->timestamps();
         });
     }

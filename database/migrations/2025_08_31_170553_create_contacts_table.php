@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('label');
             $table->string('phone')->unique();
+            $table->string('operateur');
             $table->timestamps();
         });
     }

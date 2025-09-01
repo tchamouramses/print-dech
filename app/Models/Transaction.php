@@ -7,14 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Transaction extends Model
 {
-    protected $fillable = [
-        'client_id',
-        'user_id',
-        'contact_id',
-        'amount',
-        'sender',
-        'reference',
-    ];
+    protected $guarded = [];
 
     protected static function booted()
     {

@@ -21,6 +21,8 @@ class ContactsTable
                 TextColumn::make('phone')
                     ->label('Numéro de Téléphone')
                     ->searchable(),
+                TextColumn::make('operateur')
+                    ->label('Opérateur téléphonique'),
                 TextColumn::make('created_at')
                     ->label('Date de création')
                     ->dateTime()
