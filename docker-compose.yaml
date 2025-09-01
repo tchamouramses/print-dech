@@ -1,17 +1,17 @@
 services:
-  funeat-db-server:
+  print-dech-db-server:
     image: 'mysql:lts'
     container_name: print-dech-db-server
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: <db_root_password>
-      MYSQL_DATABASE: <db_database>
-      MYSQL_USER: <db_username>
-      MYSQL_PASSWORD: <db_password>
+      MYSQL_ROOT_PASSWORD: DechTech2.
+      MYSQL_DATABASE: printer
+      MYSQL_USER: printer
+      MYSQL_PASSWORD: printer.20
     volumes:
       - print_dech_database:/var/lib/mysql
-  funeat-api:
-    container_name: print-dech-api
+  print-dech:
+    container_name: print-dech
     restart: always
     depends_on:
       - print-dech-db-server
