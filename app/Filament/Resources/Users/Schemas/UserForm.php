@@ -6,6 +6,7 @@ use App\Models\Enums\UserRoleEnum;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\Operation;
 
 class UserForm
 {
@@ -27,6 +28,7 @@ class UserForm
                     ->required(),
                 TextInput::make('password')
                     ->password()
+                    ->visibleOn(Operation::Create)
                     ->required(),
             ]);
     }

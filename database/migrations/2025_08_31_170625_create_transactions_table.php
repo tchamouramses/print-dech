@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignIdFor(Contact::class)->constrained()->cascadeOnDelete();
             $table->double('amount');
             $table->string('sender');
+            $table->string('reference')->unique();
             $table->timestamps();
         });
     }

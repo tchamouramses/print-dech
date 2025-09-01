@@ -13,13 +13,14 @@ class Transaction extends Model
         'contact_id',
         'amount',
         'sender',
+        'reference',
     ];
 
-    // deficnir l'utilisateur comme l'utilisateur connecté a la création de la transaction
     protected static function booted()
     {
         static::creating(function ($transaction) {
                 $transaction->user_id = Auth::id();
+                $transaction->reference = strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, 8));
         });
     }
 

@@ -10,6 +10,7 @@ use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Log;
 
 class TransactionsTable
 {
@@ -68,10 +69,8 @@ class TransactionsTable
                     ->modalIcon('heroicon-o-printer')
                     ->action(function (\App\Models\Transaction $record) {
                         $invoiceService = new \App\Services\InvoiceService();
-                        $invoiceService->printInvoice($record);
+                        return $invoiceService->printInvoice($record);
                     })
-                    // ->url(fn (\App\Models\Transaction $record): string => route('in', $record))
-                    // ->openUrlInNewTab()
                     ->icon('heroicon-o-printer')
             ])
             ->toolbarActions([
