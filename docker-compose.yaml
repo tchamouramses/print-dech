@@ -1,0 +1,27 @@
+services:
+  funeat-db-server:
+    image: 'mysql:lts'
+    container_name: print-dech-db-server
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: <db_root_password>
+      MYSQL_DATABASE: <db_database>
+      MYSQL_USER: <db_username>
+      MYSQL_PASSWORD: <db_password>
+    volumes:
+      - print_dech_database:/var/lib/mysql
+  funeat-api:
+    container_name: print-dech-api
+    restart: always
+    depends_on:
+      - print-dech-db-server
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+      args:
+        ID_SERVER_DB_HOST: print-dech-db-server
+        ID_SERVER_DB_PORT: 3306
+    ports:
+      - "8400:80"
+volumes:
+  print_dech_database:
