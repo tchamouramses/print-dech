@@ -20,4 +20,8 @@ class Contact extends Model
     {
         return $this->hasMany(Transaction::class);
     }
+
+    public function getImageAttribute() {
+        return $this->operateur === ContactOperatorEnum::Orange ? public_path('images/orange.jpg') : public_path('images/mtn.jpg');
+    }
 }

@@ -13,7 +13,7 @@ class LastTransactionWidget extends TableWidget
     public function table(Table $table): Table
     {
         return $table
-            ->query(fn (): Builder => Transaction::query()->take(5))
+            ->query(fn (): Builder => Transaction::query()->latest()->take(5))
             ->columns([
                 TextColumn::make('reference'),
                 TextColumn::make('client.name'),

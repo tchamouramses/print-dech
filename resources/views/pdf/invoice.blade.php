@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <title>Facture</title>
     <style>
-        @page { margin: 20px; }
+        @page {
+            margin: 20px;
+        }
+
         body {
             font-family: DejaVu Sans, sans-serif;
             font-size: 12px;
@@ -22,17 +26,20 @@
             color: white;
             padding: 20px;
         }
+
         .header h1 {
             margin: 0;
             font-size: 22px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
+
         .header table {
             width: 100%;
             margin-top: 5px;
             font-size: 12px;
         }
+
         .header td {
             padding: 2px 0;
         }
@@ -41,6 +48,7 @@
         .section {
             margin-top: 20px;
         }
+
         .section h2 {
             font-size: 14px;
             color: #2d3748;
@@ -55,17 +63,20 @@
             width: 100%;
             border-collapse: collapse;
         }
+
         .info-table td {
             width: 50%;
             padding: 5px 0;
             vertical-align: top;
         }
+
         .label {
             font-size: 11px;
             font-weight: bold;
             color: #4a5568;
             text-transform: uppercase;
         }
+
         .value {
             font-size: 12px;
             color: #1a202c;
@@ -78,20 +89,24 @@
             padding: 12px;
             margin-top: 10px;
         }
+
         .transaction-header {
             border-bottom: 1px solid #cbd5e0;
             margin-bottom: 8px;
             padding-bottom: 5px;
             font-size: 12px;
         }
+
         .transaction-id {
             font-family: Courier, monospace;
             font-weight: bold;
         }
+
         .transaction-time {
             float: right;
             color: #718096;
         }
+
         .amount {
             font-size: 16px;
             font-weight: bold;
@@ -105,15 +120,18 @@
             margin-top: 40px;
             text-align: center;
         }
+
         .signatures td {
             width: 50%;
             padding: 20px;
         }
+
         .signature-line {
             border-top: 1px solid #a0aec0;
             width: 150px;
             margin: 0 auto 5px auto;
         }
+
         .footer {
             text-align: center;
             margin-top: 20px;
@@ -123,6 +141,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
 
@@ -132,7 +151,8 @@
             <table>
                 <tr>
                     <td>Ref: <strong>{{ $transaction->reference }}</strong></td>
-                    <td align="right">Date : {{ Illuminate\Support\Carbon::parse($transaction->date)->translatedFormat('d M Y') }}</td>
+                    <td align="right">Date :
+                        {{ Illuminate\Support\Carbon::parse($transaction->date)->translatedFormat('d M Y') }}</td>
                 </tr>
             </table>
         </div>
@@ -143,11 +163,15 @@
             <table class="info-table">
                 <tr>
                     <td><span class="label">Nom</span><br><span class="value">{{ $enterprise->name }}</span></td>
-                    <td><span class="label">Téléphone</span><br><span class="value">{{ $enterprise->phone1 . (isset($enterprise->phone2) ? '/' . $enterprise->phone2 : '') }}</span></td>
-                    <td><span class="label">Registre</span><br><span class="value">{{ $enterprise->trade_register }}</span></td>
+                    <td><span class="label">Téléphone</span><br><span
+                            class="value">{{ $enterprise->phone1 . (isset($enterprise->phone2) ? '/' . $enterprise->phone2 : '') }}</span>
+                    </td>
+                    <td><span class="label">Registre</span><br><span
+                            class="value">{{ $enterprise->trade_register }}</span></td>
                 </tr>
                 <tr>
-                    <td><span class="label">Siège social</span><br><span class="value"> {{ $enterprise->head_office }} </span></td>
+                    <td><span class="label">Siège social</span><br><span class="value"> {{ $enterprise->head_office }}
+                        </span></td>
                     <td><span class="label">N° Cont</span><br><span class="value">{{ $enterprise->niu }}</span></td>
                 </tr>
             </table>
@@ -158,9 +182,12 @@
             <h2>Client</h2>
             <table class="info-table">
                 <tr>
-                    <td><span class="label">Nom</span><br><span class="value">{{$transaction->client->name}} </span></td>
-                    <td><span class="label">Téléphone</span><br><span class="value">{{$transaction->client->phone}}</span></td>
-                    <td><span class="label">Commissionnaire</span><br><span class="value">{{$transaction->sender}}</span></td>
+                    <td><span class="label">Nom</span><br><span class="value">{{ $transaction->client->name }} </span>
+                    </td>
+                    <td><span class="label">Téléphone</span><br><span
+                            class="value">{{ $transaction->client->phone }}</span></td>
+                    <td><span class="label">Commissionnaire</span><br><span
+                            class="value">{{ $transaction->sender }}</span></td>
                 </tr>
             </table>
         </div>
@@ -171,9 +198,30 @@
             <div class="transaction-box">
                 <div class="transaction-header">
                     <span class="transaction-id">{{ $transaction->reference }}</span>
-                    <span class="transaction-time">{{ Illuminate\Support\Carbon::parse($transaction->date)->format('h:i') }}</span>
+                    <span
+                        class="transaction-time">{{ Illuminate\Support\Carbon::parse($transaction->date)->format('h:i') }}</span>
                 </div>
                 <table width="100%">
+                    <tr>
+                        <td>
+                            <div style="padding-bottom: 12px; display: table; width: 100%;">
+                                <span class="label" style="display: table-row;">
+                                    <span style="display: table-cell; padding-bottom: 5px;">Numéro de dépôt</span>
+                                </span>
+                            </div>
+                        </td>
+                        <td class="amount">
+                            <div style="padding-bottom: 12px; display: table; width: 100%;">
+                            <span class="value" style="display: table-row;">
+                                <span style="display: table-cell; vertical-align: middle;">
+                                    <img src="{{ $transaction->contact->image }}"
+                                        style="width: 24px; border-radius: 10%; vertical-align: middle;">
+                                    {{ $transaction->contact->phone }}
+                                </span>
+                            </span>
+                            </div>
+                        </td>
+                    </tr>
                     <tr>
                         <td>
                             <span class="label">Caissier(ère)</span><br>
@@ -205,4 +253,5 @@
 
     </div>
 </body>
+
 </html>
