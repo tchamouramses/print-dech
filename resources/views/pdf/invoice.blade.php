@@ -147,7 +147,7 @@
 
         <!-- HEADER -->
         <div class="header">
-            <h1>REÇU DE VERSEMENT/RETRAIT</h1>
+            <h1>REÇU DE VERSEMENT/DEPOT</h1>
             <table>
                 <tr>
                     <td>Ref: <strong>{{ $transaction->reference }}</strong></td>
@@ -197,7 +197,7 @@
             <h2>Transaction</h2>
             <div class="transaction-box">
                 <div class="transaction-header">
-                    <span class="transaction-id">{{ $transaction->reference }}</span>
+                    <span class="transaction-id">{{ $transaction->identifier ?? $transaction->reference }}</span>
                     <span
                         class="transaction-time">{{ Illuminate\Support\Carbon::parse($transaction->date)->format('h:i') }}</span>
                 </div>
