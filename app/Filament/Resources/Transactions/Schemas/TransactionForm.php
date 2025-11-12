@@ -28,6 +28,10 @@ class TransactionForm
                     ->numeric(),
                 TextInput::make('identifier')
                     ->label('Numéro de la Transaction')
+                    ->unique()
+                    ->validationMessages([
+                        'unique' => 'Ce numéro de transaction existe déjà.',
+                    ])
                     ->required(),
                 DateTimePicker::make('date')
                     ->label('Date de la transaction')
