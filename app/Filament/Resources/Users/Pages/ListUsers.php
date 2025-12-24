@@ -13,7 +13,7 @@ class ListUsers extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make()->label('Nouvel Employé'),
+            CreateAction::make()->label('Nouvel Agent')->successNotificationTitle("Agent ajoute avec success"),
         ];
     }
 }

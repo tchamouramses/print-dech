@@ -2,10 +2,16 @@
 
 namespace App\Policies;
 
+use App\Models\Enums\UserRoleEnum;
 use App\Models\User;
 
 class UserPolicy
 {
+    public function before(User $user, string $ability): bool|null
+    {
+        return $user->isAdmin();
+    }
+
     /**
      * Determine whether the user can view any models.
      */

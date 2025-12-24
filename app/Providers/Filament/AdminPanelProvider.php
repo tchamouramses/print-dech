@@ -6,6 +6,7 @@ use App\Filament\Pages\Dashboard;
 use App\Models\Profil;
 use App\Utils\Utils;
 use Filament\Actions\Action;
+use Filament\Enums\UserMenuPosition;
 use Filament\Forms\Components\TextInput;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -13,6 +14,7 @@ use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\Schemas\Components\Grid;
 use Filament\Support\Colors\Color;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -37,6 +39,7 @@ class AdminPanelProvider extends PanelProvider
                 PanelsRenderHook::GLOBAL_SEARCH_BEFORE,
                 fn() => \Livewire\Livewire::mount('mode-switcher')
             )
+            ->userMenu(position: UserMenuPosition::Sidebar)
             ->userMenuItems([
                 'logout' => fn(Action $action) => $action->label('Se Déconnecter'),
                 'account' => fn(Action $action) => $action->label('Mon Compte'),
@@ -56,13 +59,16 @@ class AdminPanelProvider extends PanelProvider
                         ];
                     })
                     ->schema([
-                        TextInput::make('name')->label('Nom de l\'Entreprise')->required(),
-                        TextInput::make('phone1')->label('Téléphone 1')->required(),
-                        TextInput::make('phone2')->label('Téléphone 2')->nullable(),
-                        TextInput::make('niu')->label('NIU')->required(),
-                        TextInput::make('service')->label('Service')->required(),
-                        TextInput::make('head_office')->label('Siège Social')->required(),
-                        TextInput::make('trade_register')->label('Registre de Commerce')->required(),
+                        Grid::make(2)
+                        ->schema([
+                            TextInput::make('name')->label('Nom de l\'Entreprise')->required(),
+                            TextInput::make('phone1')->label('Téléphone 1')->required(),
+                            TextInput::make('phone2')->label('Téléphone 2')->nullable(),
+                            TextInput::make('niu')->label('NIU')->required(),
+                            TextInput::make('service')->label('Service')->required(),
+                            TextInput::make('head_office')->label('Siège Social')->required(),
+                            TextInput::make('trade_register')->label('Registre de Commerce')->required(),
+                        ])
                     ])
                     ->action(function (array $data): void {
                         $profil = Profil::first();

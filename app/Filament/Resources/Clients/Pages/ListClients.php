@@ -13,7 +13,7 @@ class ListClients extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make()->label('Nouveau Client'),
+            CreateAction::make()->label('Nouveau Client')->successNotificationTitle("Client ajoute avec success"),
         ];
     }
 }

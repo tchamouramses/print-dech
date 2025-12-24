@@ -10,34 +10,34 @@
      public const string MODULE_TYPE_CACHE_KEY = 'MODULE_TYPE_CACHE_KEY';
      public static function getType()
      {
-         return Cache::rememberForever(self::MODULE_TYPE_CACHE_KEY, function () {
+         return Cache::get(self::MODULE_TYPE_CACHE_KEY, function () {
              return ModuleTypeEnum::PRINT->value;
          });
      }
 
      public static function isPrint(): bool
      {
-         return static::getType() === ModuleTypeEnum::PRINT->value;
+         return self::getType() === ModuleTypeEnum::PRINT->value;
      }
 
      public static function isTransaction(): bool
      {
-         return static::getType() === ModuleTypeEnum::TRANSACTION->value;
+         return self::getType() === ModuleTypeEnum::TRANSACTION->value;
      }
 
      public static function isStock(): bool
      {
-         return static::getType() === ModuleTypeEnum::STOCK->value;
+         return self::getType() === ModuleTypeEnum::STOCK->value;
      }
 
-     public static function setType(ModuleTypeEnum $type)
+     public static function setType(ModuleTypeEnum $type): void
      {
          Cache::forever(self::MODULE_TYPE_CACHE_KEY, $type->value);
      }
 
      public static function getModuleColor(): array
      {
-         return match (static::getType()) {
+         return match (self::getType()) {
              ModuleTypeEnum::TRANSACTION->value => [
                  'primary' => Color::Amber,
                  'secondary' => Color::Green,

@@ -16,7 +16,7 @@ class ContactResource extends Resource
 {
     protected static ?string $model = Contact::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDevicePhoneMobile;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedPhone;
 
     protected static ?string $recordTitleAttribute = 'Numéro';
 

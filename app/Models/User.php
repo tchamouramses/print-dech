@@ -8,6 +8,7 @@ use App\Models\Enums\UserRoleEnum;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -65,5 +66,10 @@ class User extends Authenticatable implements FilamentUser
     public function isAdmin(): bool
     {
         return $this->role === UserRoleEnum::ADMIN;
+    }
+
+    public function pointOfSales(): BelongsToMany
+    {
+        return $this->belongsToMany(PointOfSale::class, 'point_of_sale_user');
     }
 }

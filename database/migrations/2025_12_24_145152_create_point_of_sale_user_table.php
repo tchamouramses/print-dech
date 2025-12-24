@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('move_types', function (Blueprint $table) {
+        Schema::create('point_of_sale_user', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('range')->default(\App\Models\Enums\MoveRangeEnum::GLOBAL->value)->comment('take it to App\Models\Enums\MoveRangeEnum');
-            $table->boolean('is_positive')->default(false);
-            $table->text('description')->nullable();
+            $table->foreignIdFor(\App\Models\PointOfSale::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(\App\Models\User::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('internal_move_types');
+        Schema::dropIfExists('point_of_sale_user');
     }
 };

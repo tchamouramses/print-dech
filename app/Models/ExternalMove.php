@@ -21,6 +21,9 @@ class ExternalMove extends Model
     {
         static::creating(function (ExternalMove $move) {
             $move->user_id = Auth::id();
+            if ($move->type === ExternalMoveTypeEnum::OUT && $move->amount > 0){
+                $move->amount = -1 * $move->amount;
+            }
         });
     }
 
@@ -37,6 +40,11 @@ class ExternalMove extends Model
     public function parent(): BelongsTo
     {
         return $this->belongsTo(ExternalMove::class, 'parent_id');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
 }

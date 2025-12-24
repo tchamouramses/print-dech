@@ -29,8 +29,10 @@ class ContactsTable
                     ->sortable(),
             ])
             ->recordActions([
-                EditAction::make()->iconButton(),
-                DeleteAction::make()->iconButton(),
+                EditAction::make()->iconButton()
+                    ->tooltip('Modifier'),
+                DeleteAction::make()->iconButton()
+                    ->tooltip('Supprimer'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

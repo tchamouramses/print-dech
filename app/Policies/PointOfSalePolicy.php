@@ -3,15 +3,15 @@
 namespace App\Policies;
 
 use App\Models\Enums\UserRoleEnum;
-use App\Models\Transaction;
+use App\Models\PointOfSale;
 use App\Models\User;
 use App\Utils\Utils;
 
-class TransactionPolicy
+class PointOfSalePolicy
 {
     public function before(User $user, string $ability): bool|null
     {
-        return Utils::isPrint() && $user->isAdmin();
+        return Utils::isTransaction() && $user->isAdmin();
     }
 
     /**
@@ -19,15 +19,15 @@ class TransactionPolicy
      */
     public function viewAny(User $user): bool
     {
-        return in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::USER]);
+        return false;
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Transaction $transaction): bool
+    public function view(User $user, PointOfSale $pointOfSale): bool
     {
-        return in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::USER]);
+        return false;
     }
 
     /**
@@ -35,21 +35,21 @@ class TransactionPolicy
      */
     public function create(User $user): bool
     {
-        return in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::USER]);
+        return false;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Transaction $transaction): bool
+    public function update(User $user, PointOfSale $pointOfSale): bool
     {
-        return in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::USER]);
+        return false;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Transaction $transaction): bool
+    public function delete(User $user, PointOfSale $pointOfSale): bool
     {
         return false;
     }
@@ -57,7 +57,7 @@ class TransactionPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Transaction $transaction): bool
+    public function restore(User $user, PointOfSale $pointOfSale): bool
     {
         return false;
     }
@@ -65,7 +65,7 @@ class TransactionPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Transaction $transaction): bool
+    public function forceDelete(User $user, PointOfSale $pointOfSale): bool
     {
         return false;
     }

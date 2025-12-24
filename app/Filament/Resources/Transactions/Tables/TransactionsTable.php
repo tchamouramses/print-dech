@@ -60,9 +60,12 @@ class TransactionsTable
                     ->searchable()
             ])
             ->recordActions([
-                EditAction::make()->iconButton(),
-                DeleteAction::make()->iconButton(),
+                EditAction::make()->iconButton()
+                    ->tooltip('Modifier'),
+                DeleteAction::make()->iconButton()
+                    ->tooltip('Supprimer'),
                 Action::make('print')
+                    ->tooltip('Imprimer')
                     ->iconButton()
                     ->color('success')
                     ->requiresConfirmation()

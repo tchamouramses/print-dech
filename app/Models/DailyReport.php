@@ -29,4 +29,9 @@ class DailyReport extends Model
     {
         return $this->belongsTo(MoveType::class);
     }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }
