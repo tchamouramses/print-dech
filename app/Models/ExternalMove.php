@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Models;
+
+use App\Models\Enums\ExternalMoveTypeEnum;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Auth;
+
+class ExternalMove extends Model
+{
+    protected $guarded = [];
+    protected function casts(): array
+    {
+        return [
+            'type' => ExternalMoveTypeEnum::class,
+        ];
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (ExternalMove $move) {
+            $move->user_id = Auth::id();
+        });
+    }
+
+    public function pointOfSale(): BelongsTo
+    {
+        return $this->belongsTo(PointOfSale::class);
+    }
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Client::class);
+    }
+
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(ExternalMove::class, 'parent_id');
+    }
+
+}

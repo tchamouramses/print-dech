@@ -13,4 +13,9 @@ class Client extends Model
         return $this->hasMany(Transaction::class);
     }
 
+    public function externalMoves()
+    {
+        return $this->hasMany(ExternalMove::class);
+    }
+
 }
