@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\PointOfSales\Tables;
 
+use App\Models\PointOfSale;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -15,12 +16,15 @@ class PointOfSalesTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->query(PointOfSale::query()->latest())
             ->columns([
                 TextColumn::make('name')
+                    ->label('Nom')
                     ->searchable(),
                 TextColumn::make('description')
                     ->limit(20),
                 TextColumn::make('created_at')
+                    ->label('Date de creation')
                     ->dateTime(),
             ])
             ->filters([

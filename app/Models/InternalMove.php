@@ -26,6 +26,7 @@ class InternalMove extends Model
         static::updating(function (InternalMove $move) {
             if($move->status === InternalMoveStatusEnum::RECEIVE){
                 $move->receiver_id = Auth::id();
+                $move->received_date = now();
             }
         });
     }
@@ -40,7 +41,7 @@ class InternalMove extends Model
         return $this->belongsTo(PointOfSale::class, 'point_receiver_id');
     }
 
-    public function type(): BelongsTo
+    public function moveType(): BelongsTo
     {
         return $this->belongsTo(MoveType::class);
     }

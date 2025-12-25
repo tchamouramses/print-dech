@@ -22,6 +22,7 @@ class UsersTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->query(User::query()->latest())
             ->columns([
                 TextColumn::make('name')
                     ->label('Nom')

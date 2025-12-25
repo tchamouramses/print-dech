@@ -12,8 +12,8 @@ enum InternalMoveStatusEnum: string implements HasLabel
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::RECEIVE => 'received',
-            self::SEND => 'sending',
+            self::RECEIVE => 'Recu',
+            self::SEND => 'Envoie en cours',
         };
     }
 }

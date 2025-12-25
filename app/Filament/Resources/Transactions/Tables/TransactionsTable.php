@@ -18,6 +18,7 @@ class TransactionsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->query(Transaction::query()->latest())
             ->columns([
                 TextColumn::make('client.name')
                     ->label('Client')

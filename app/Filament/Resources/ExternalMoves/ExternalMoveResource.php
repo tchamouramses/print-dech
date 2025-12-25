@@ -7,6 +7,7 @@ use App\Filament\Resources\ExternalMoves\Pages\EditExternalMove;
 use App\Filament\Resources\ExternalMoves\Pages\ListExternalMoves;
 use App\Filament\Resources\ExternalMoves\Schemas\ExternalMoveForm;
 use App\Filament\Resources\ExternalMoves\Tables\ExternalMovesTable;
+use App\Filament\Widgets\ExternalMoveAmountWidget;
 use App\Models\ExternalMove;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -18,9 +19,7 @@ class ExternalMoveResource extends Resource
 {
     protected static ?string $model = ExternalMove::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
-
-    protected static ?string $recordTitleAttribute = 'Mouvements externes';
+    protected static string|BackedEnum|null $navigationIcon = 'iconsax-two-money-send';
 
     public static function form(Schema $schema): Schema
     {
@@ -44,5 +43,15 @@ class ExternalMoveResource extends Resource
         return [
             'index' => ListExternalMoves::route('/'),
         ];
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Mouvements externes';
+    }
+
+    public static function getRecordTitleAttribute(): ?string
+    {
+        return 'Mouvements Externes';
     }
 }

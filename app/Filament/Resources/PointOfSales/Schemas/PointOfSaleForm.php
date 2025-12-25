@@ -13,6 +13,7 @@ class PointOfSaleForm
         return $schema
             ->components([
                 TextInput::make('name')
+                    ->label('Nom')
                     ->required(),
                 Textarea::make('description')
                     ->columnSpanFull(),

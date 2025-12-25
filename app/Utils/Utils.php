@@ -11,7 +11,7 @@
      public static function getType()
      {
          return Cache::get(self::MODULE_TYPE_CACHE_KEY, function () {
-             return ModuleTypeEnum::PRINT->value;
+             return ModuleTypeEnum::TRANSACTION->value;
          });
      }
 

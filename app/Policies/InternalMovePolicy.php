@@ -9,17 +9,12 @@ use App\Utils\Utils;
 
 class InternalMovePolicy
 {
-    public function before(User $user, string $ability): bool|null
-    {
-        return Utils::isTransaction() && $user->isAdmin();
-    }
-
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::POINT_OF_SALES]);
+        return Utils::isTransaction() && in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::POINT_OF_SALES]);
     }
 
     /**
@@ -27,7 +22,7 @@ class InternalMovePolicy
      */
     public function view(User $user, InternalMove $intervalMove): bool
     {
-        return in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::POINT_OF_SALES]);
+        return Utils::isTransaction() && in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::POINT_OF_SALES]);
     }
 
     /**
@@ -35,7 +30,7 @@ class InternalMovePolicy
      */
     public function create(User $user): bool
     {
-        return in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::POINT_OF_SALES]);
+        return Utils::isTransaction() && in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::POINT_OF_SALES]);
     }
 
     /**
@@ -43,7 +38,7 @@ class InternalMovePolicy
      */
     public function update(User $user, InternalMove $intervalMove): bool
     {
-        return in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::POINT_OF_SALES]);
+        return Utils::isTransaction() && $user->role == UserRoleEnum::ADMIN;
     }
 
     /**
@@ -51,7 +46,7 @@ class InternalMovePolicy
      */
     public function delete(User $user, InternalMove $intervalMove): bool
     {
-        return false;
+        return Utils::isTransaction() && $user->isAdmin();
     }
 
     /**

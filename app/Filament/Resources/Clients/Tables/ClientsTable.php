@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Clients\Tables;
 
+use App\Models\Client;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -14,6 +15,7 @@ class ClientsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->query(Client::query()->latest())
             ->columns([
                 TextColumn::make('name')
                     ->label('Nom')

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ExternalMoves\Schemas;
 
+use App\Models\Client;
 use App\Models\Enums\ExternalMoveTypeEnum;
 use App\Models\ExternalMove;
 use Filament\Forms\Components\DateTimePicker;
@@ -30,10 +31,12 @@ class ExternalMoveForm
                 Select::make('point_of_sale_id')
                     ->label('Point de vente')
                     ->options(auth()->user()->pointOfSales()->pluck('name', 'point_of_sales.id as id')->toArray())
+                    ->searchable()
                     ->required(),
                 Select::make('client_id')
                     ->label('Client si existant')
-                    ->relationship('client', 'name'),
+                    ->options(Client::pluck('name', 'id')->toArray())
+                    ->searchable(),
                 DateTimePicker::make('date')
                     ->label('Date du mouvement de fond')
                     ->default(now())
@@ -41,6 +44,7 @@ class ExternalMoveForm
                 Select::make('parent_id')
                     ->label('Parent si ce mouvement est causé par un précédent')
                     ->options(ExternalMove::pluck('designation as name', 'id')->toArray())
+                    ->searchable()
                     ->columnSpanFull(),
                 Textarea::make('description')
                     ->columnSpanFull(),

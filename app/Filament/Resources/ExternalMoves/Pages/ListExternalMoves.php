@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ExternalMoves\Pages;
 
 use App\Filament\Resources\ExternalMoves\ExternalMoveResource;
+use App\Filament\Widgets\ExternalMoveAmountWidget;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 
@@ -14,6 +15,13 @@ class ListExternalMoves extends ListRecords
     {
         return [
             CreateAction::make(),
+        ];
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            ExternalMoveAmountWidget::class,
         ];
     }
 }

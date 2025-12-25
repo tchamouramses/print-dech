@@ -24,6 +24,18 @@ class ExternalMove extends Model
             if ($move->type === ExternalMoveTypeEnum::OUT && $move->amount > 0){
                 $move->amount = -1 * $move->amount;
             }
+            if ($move->type === ExternalMoveTypeEnum::INCOME && $move->amount < 0){
+                $move->amount = -1 * $move->amount;
+            }
+        });
+
+        static::updating(function (ExternalMove $move) {
+            if ($move->type === ExternalMoveTypeEnum::OUT && $move->amount > 0){
+                $move->amount = -1 * $move->amount;
+            }
+            if ($move->type === ExternalMoveTypeEnum::INCOME && $move->amount < 0){
+                $move->amount = -1 * $move->amount;
+            }
         });
     }
 

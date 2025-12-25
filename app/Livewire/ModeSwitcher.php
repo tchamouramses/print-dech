@@ -19,7 +19,7 @@ class ModeSwitcher extends Component
                 ->body("Vous etes en mode " . ModuleTypeEnum::from(Utils::getType())->getLabel())
                 ->success()
                 ->send();
-        return $this->redirect('/', navigate: true);
+        return redirect('/');
     }
 
     public function render()
