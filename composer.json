@@ -8,10 +8,13 @@
     "require": {
         "php": "^8.3",
         "barryvdh/laravel-dompdf": "^3.1",
+        "codeat3/blade-ikonate": "^1.6",
+        "eduard9969/blade-polaris-icons": "^2.8",
         "filament/filament": "^4.0",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "saade/blade-iconsax": "^1.2",
+        "secondnetwork/blade-tabler-icons": "^3.36",
         "troccoli/blade-health-icons": "^5.0"
     },
     "require-dev": {

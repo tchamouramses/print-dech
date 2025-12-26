@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Enums\ExternalMoveTypeEnum;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
@@ -27,6 +28,8 @@ class ExternalMove extends Model
             if ($move->type === ExternalMoveTypeEnum::INCOME && $move->amount < 0){
                 $move->amount = -1 * $move->amount;
             }
+            $bilan = Bilan::where('date', Carbon::parse($move->date)->format('Y-m-d'))->firstOrCreate(['date' => Carbon::parse($move->date)->format('Y-m-d')]);
+            $move->bilan_id = $bilan->id;
         });
 
         static::updating(function (ExternalMove $move) {
@@ -36,6 +39,19 @@ class ExternalMove extends Model
             if ($move->type === ExternalMoveTypeEnum::INCOME && $move->amount < 0){
                 $move->amount = -1 * $move->amount;
             }
+        });
+
+        static::created(function (ExternalMove $move) {
+            $move->bilan->regenerateAllMetrics();
+        });
+
+        static::updated(function (ExternalMove $move) {
+            $move->bilan->regenerateAllMetrics();
+        });
+
+        static::deleted(function (ExternalMove $move) {
+            $bilan = Bilan::find($move->bilan_id);
+            $bilan->regenerateAllMetrics();
         });
     }
 
@@ -57,6 +73,11 @@ class ExternalMove extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function bilan(): BelongsTo
+    {
+        return $this->belongsTo(Bilan::class);
     }
 
 }

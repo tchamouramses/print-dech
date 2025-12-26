@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(App\Models\MoveType::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(App\Models\User::class, 'sender_id')->constrained()->cascadeOnDelete();
             $table->foreignIdFor(App\Models\User::class, 'receiver_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(App\Models\Bilan::class)->constrained()->cascadeOnDelete();
             $table->dateTime('send_date');
             $table->dateTime('received_date')->nullable();
             $table->timestamps();

@@ -16,12 +16,12 @@ return new class extends Migration
             $table->double('amount')->unsigned();
             $table->double('commission_amount')->unsigned()->default(0);
             $table->double('tip_amount')->unsigned()->default(0);
-            $table->double('recap_amount')->comment('see formula in the cell of the Excel file');
-            $table->double('gap_amount')->comment('see formula in the cell of the Excel file');
+            $table->double('variation_amount')->comment('see formula in the cell of the Excel file');
             $table->boolean('is_initial')->default(false);
             $table->foreignIdFor(App\Models\PointOfSale::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(App\Models\MoveType::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(App\Models\User::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(App\Models\Bilan::class)->constrained()->cascadeOnDelete();
             $table->dateTime('day');
             $table->timestamps();
         });

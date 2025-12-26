@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignIdFor(App\Models\Client::class)->nullable()->constrained()->cascadeOnDelete();
             $table->foreignIdFor(App\Models\ExternalMove::class, 'parent_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignIdFor(App\Models\User::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(App\Models\Bilan::class)->constrained()->cascadeOnDelete();
             $table->dateTime('date')->comment('date and time in datetime picker');
             $table->timestamps();
         });

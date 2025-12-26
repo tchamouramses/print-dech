@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Enums\InternalMoveStatusEnum;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,8 @@ class InternalMove extends Model
     {
         static::creating(function (InternalMove $move) {
             $move->sender_id = Auth::id();
+            $bilan = Bilan::where('date', Carbon::parse($move->send_date)->format('Y-m-d'))->firstOrCreate(['date' => Carbon::parse($move->send_date)->format('Y-m-d')]);
+            $move->bilan_id = $bilan->id;
         });
 
         static::updating(function (InternalMove $move) {
@@ -28,6 +31,19 @@ class InternalMove extends Model
                 $move->receiver_id = Auth::id();
                 $move->received_date = now();
             }
+        });
+
+        static::created(function (InternalMove $move) {
+            $move->bilan->regenerateAllMetrics();
+        });
+
+        static::updated(function (InternalMove $move) {
+            $move->bilan->regenerateAllMetrics();
+        });
+
+        static::deleted(function (InternalMove $move) {
+            $bilan = Bilan::find($move->bilan_id);
+            $bilan->regenerateAllMetrics();
         });
     }
 
@@ -54,5 +70,10 @@ class InternalMove extends Model
     public function receiver(): BelongsTo
     {
         return $this->belongsTo(User::class, 'receiver_id');
+    }
+
+    public function bilan(): BelongsTo
+    {
+        return $this->belongsTo(Bilan::class);
     }
 }

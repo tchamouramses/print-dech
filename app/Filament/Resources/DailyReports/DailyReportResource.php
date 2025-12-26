@@ -18,7 +18,7 @@ class DailyReportResource extends Resource
 {
     protected static ?string $model = DailyReport::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = 'ik-chart';
 
     public static function form(Schema $schema): Schema
     {

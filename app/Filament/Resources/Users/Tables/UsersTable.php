@@ -41,7 +41,7 @@ class UsersTable
             ->recordActions([
                 Action::make('assign')
                     ->icon('heroicon-o-user')
-                    ->visible(fn($record) => Utils::isTransaction() && $record->role === UserRoleEnum::POINT_OF_SALES)
+                    ->visible(fn($record) => Utils::isTransaction() &&  in_array($record->role, [UserRoleEnum::POINT_OF_SALES, UserRoleEnum::ADMIN]))
                     ->disabled(fn($record) => PointOfSale::whereDoesntHave('users', fn($query) => $query->where('users.id', $record->id))->count() === 0)
                     ->iconButton()
                     ->color('secondary')

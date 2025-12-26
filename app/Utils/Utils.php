@@ -35,6 +35,11 @@
          Cache::forever(self::MODULE_TYPE_CACHE_KEY, $type->value);
      }
 
+     public static function formatAmount(float $amount): string
+     {
+         return number_format($amount, 0, '.', ' ');
+     }
+
      public static function getModuleColor(): array
      {
          return match (self::getType()) {

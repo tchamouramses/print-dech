@@ -18,7 +18,7 @@ class PointOfSaleResource extends Resource
 {
     protected static ?string $model = PointOfSale::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = 'polaris-point-of-sale-icon';
 
     protected static ?string $recordTitleAttribute = 'Point de vente';
 
@@ -44,5 +44,16 @@ class PointOfSaleResource extends Resource
         return [
             'index' => ListPointOfSales::route('/'),
         ];
+    }
+
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Point de vente';
+    }
+
+    public static function getRecordTitleAttribute(): ?string
+    {
+        return 'Point de vente';
     }
 }

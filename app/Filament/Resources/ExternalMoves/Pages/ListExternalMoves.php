@@ -5,12 +5,13 @@ namespace App\Filament\Resources\ExternalMoves\Pages;
 use App\Filament\Resources\ExternalMoves\ExternalMoveResource;
 use App\Filament\Widgets\ExternalMoveAmountWidget;
 use Filament\Actions\CreateAction;
+use Filament\Pages\Concerns\ExposesTableToWidgets;
 use Filament\Resources\Pages\ListRecords;
 
 class ListExternalMoves extends ListRecords
 {
+    use ExposesTableToWidgets;
     protected static string $resource = ExternalMoveResource::class;
-
     protected function getHeaderActions(): array
     {
         return [

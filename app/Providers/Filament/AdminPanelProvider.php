@@ -3,6 +3,8 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Dashboard;
+use App\Filament\Widgets\DashboardCardWidget;
+use App\Filament\Widgets\LastTransactionWidget;
 use App\Models\Profil;
 use App\Utils\Utils;
 use Filament\Actions\Action;
@@ -91,7 +93,6 @@ class AdminPanelProvider extends PanelProvider
                 Dashboard::class
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
-            ->widgets([])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

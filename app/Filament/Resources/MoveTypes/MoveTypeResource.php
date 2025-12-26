@@ -18,7 +18,7 @@ class MoveTypeResource extends Resource
 {
     protected static ?string $model = MoveType::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = 'tabler-category-2';
 
     protected static ?string $recordTitleAttribute = 'Type de mouvement';
 
