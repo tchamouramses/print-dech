@@ -31,6 +31,7 @@
     'app.filament.pages.dashboard' => 'App\\Filament\\Pages\\Dashboard',
     'app.filament.widgets.dashboard-card-widget' => 'App\\Filament\\Widgets\\DashboardCardWidget',
     'app.filament.widgets.external-move-amount-widget' => 'App\\Filament\\Widgets\\ExternalMoveAmountWidget',
+    'app.filament.widgets.internal-move-chart' => 'App\\Filament\\Widgets\\InternalMoveChart',
     'app.filament.widgets.last-transaction-widget' => 'App\\Filament\\Widgets\\LastTransactionWidget',
     'filament.livewire.database-notifications' => 'Filament\\Livewire\\DatabaseNotifications',
     'filament.auth.pages.edit-profile' => 'Filament\\Auth\\Pages\\EditProfile',
@@ -90,6 +91,7 @@
   array (
     '/home/txyxter/project/dechschool/print-dech/app/Filament/Widgets/DashboardCardWidget.php' => 'App\\Filament\\Widgets\\DashboardCardWidget',
     '/home/txyxter/project/dechschool/print-dech/app/Filament/Widgets/ExternalMoveAmountWidget.php' => 'App\\Filament\\Widgets\\ExternalMoveAmountWidget',
+    '/home/txyxter/project/dechschool/print-dech/app/Filament/Widgets/InternalMoveChart.php' => 'App\\Filament\\Widgets\\InternalMoveChart',
     '/home/txyxter/project/dechschool/print-dech/app/Filament/Widgets/LastTransactionWidget.php' => 'App\\Filament\\Widgets\\LastTransactionWidget',
   ),
   'widgetDirectories' => 

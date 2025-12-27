@@ -11,6 +11,7 @@
         "codeat3/blade-ikonate": "^1.6",
         "eduard9969/blade-polaris-icons": "^2.8",
         "filament/filament": "^4.0",
+        "flowframe/laravel-trend": "^0.4.0",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "saade/blade-iconsax": "^1.2",

@@ -23,13 +23,15 @@ class DailyReportsTable
             ->columns([
                 TextColumn::make('amount')
                     ->label("Montant")
-                    ->numeric(),
+                    ->money('XAF'),
                 TextColumn::make('commission_amount')
                     ->label("Montant commission")
-                    ->numeric(),
+                    ->money('xaf')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('tip_amount')
                     ->label("Montant pourboire")
-                    ->numeric(),
+                    ->money('xaf')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('pointOfSale.name')
                     ->label("Point de vente")
                     ->searchable(),

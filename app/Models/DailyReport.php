@@ -18,6 +18,7 @@ class DailyReport extends Model
             $report->is_initial = !self::where('move_type_id', $report->move_type_id)->exists();
             $bilan = Bilan::where('date', Carbon::parse($report->day)->format('Y-m-d'))->firstOrCreate(['date' => Carbon::parse($report->day)->format('Y-m-d')]);
             $report->bilan_id = $bilan->id;
+            $report->variation_amount = 0;
         });
 
         static::created(function (DailyReport $report) {

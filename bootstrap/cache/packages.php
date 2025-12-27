@@ -116,6 +116,17 @@
       0 => 'Filament\\Widgets\\WidgetsServiceProvider',
     ),
   ),
+  'flowframe/laravel-trend' => 
+  array (
+    'aliases' => 
+    array (
+      'Trend' => 'Flowframe\\Trend\\TrendFacade',
+    ),
+    'providers' => 
+    array (
+      0 => 'Flowframe\\Trend\\TrendServiceProvider',
+    ),
+  ),
   'kirschbaum-development/eloquent-power-joins' => 
   array (
     'providers' => 
