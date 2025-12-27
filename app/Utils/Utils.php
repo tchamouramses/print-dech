@@ -1,7 +1,9 @@
 <?php
  namespace App\Utils;
 
+ use App\Models\Bilan;
  use App\Models\Enums\ModuleTypeEnum;
+ use Carbon\Carbon;
  use Filament\Support\Colors\Color;
  use Illuminate\Support\Facades\Cache;
 
@@ -56,5 +58,18 @@
                  'secondary' => Color::Amber,
              ],
          };
+     }
+
+     public static function getCurrentBilan($date, $point_of_sale_id): Bilan
+     {
+         $day = Carbon::parse($date)->format('Y-m-d');
+         return Bilan::where('date', $day)
+             ->where('point_of_sale_id', $point_of_sale_id)
+             ->firstOrCreate(
+                 [
+                     'date' => Carbon::parse($day)->format('Y-m-d'),
+                     'point_of_sale_id' => $point_of_sale_id
+                 ]
+             );
      }
  }

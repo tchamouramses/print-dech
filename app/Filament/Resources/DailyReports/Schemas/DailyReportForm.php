@@ -13,12 +13,17 @@ class DailyReportForm
 {
     public static function configure(Schema $schema): Schema
     {
+        $pointOfSales = auth()->user()->isAdmin()
+            ? PointOfSale::all()
+            : auth()->user()->pointOfSales()->get();
         return $schema
             ->components([
                 Select::make('point_of_sale_id')
                     ->label("Point de vente")
-                    ->options(auth()->user()->isAdmin() ? PointOfSale::pluck('name', 'id')->toArray() : auth()->user()->pointOfSales()->get()->pluck('name', 'id')->toArray())
+                    ->options($pointOfSales->pluck('name', 'id')->toArray())
                     ->searchable()
+                    ->default($pointOfSales->first()?->id)
+                    ->disabled($pointOfSales->count() === 1)
                     ->required(),
                 Select::make('move_type_id')
                     ->label("Type")

@@ -59,6 +59,7 @@ class DailyReportsTable
                     ->options(User::where('role', UserRoleEnum::POINT_OF_SALES->value)->pluck('name', 'id')->toArray()),
                 SelectFilter::make('point_of_sale_id')
                     ->label("Points de vente")
+                    ->hidden(auth()->user()->role === UserRoleEnum::USER)
                     ->searchable()
                     ->options(auth()->user()->isAdmin() ? PointOfSale::pluck('name', 'id')->toArray() : auth()->user()->pointOfSales()->get()->pluck('name', 'id')->toArray()),
                 Filter::make('created_at')
@@ -88,11 +89,6 @@ class DailyReportsTable
                 DeleteAction::make()
                     ->tooltip('Supprimer')
                     ->iconButton(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
             ]);
     }
 }

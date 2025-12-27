@@ -80,12 +80,6 @@ class TransactionsTable
                         return $invoiceService->printInvoice($record);
                     })
                     ->icon('heroicon-o-printer')
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
-            ])
-            ->query(fn () => Transaction::latest());
+            ])->query(fn () => Transaction::latest());
     }
 }

@@ -24,9 +24,6 @@ class MoveTypesTable
                 TextColumn::make('range')
                     ->label('Portée')
                     ->badge(),
-                IconColumn::make('is_positive')
-                    ->label('Valeur positive')
-                    ->boolean(),
                 TextColumn::make('created_at')
                     ->label('Date de création')
                     ->dateTime(),
@@ -42,11 +39,6 @@ class MoveTypesTable
                     ->tooltip('Supprimer')
                     ->iconButton(),
             ])
-            ->emptyStateHeading("Aucun type de mouvement")
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
-            ]);
+            ->emptyStateHeading("Aucun type de mouvement");
     }
 }

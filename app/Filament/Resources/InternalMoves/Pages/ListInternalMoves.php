@@ -20,11 +20,4 @@ class ListInternalMoves extends ListRecords
         ];
     }
 
-    protected function getHeaderWidgets(): array
-    {
-        return [
-            InternalMoveChart::class,
-        ];
-    }
-
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Enums\InternalMoveStatusEnum;
+use App\Utils\Utils;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,7 +23,7 @@ class InternalMove extends Model
     {
         static::creating(function (InternalMove $move) {
             $move->sender_id = Auth::id();
-            $bilan = Bilan::where('date', Carbon::parse($move->send_date)->format('Y-m-d'))->firstOrCreate(['date' => Carbon::parse($move->send_date)->format('Y-m-d')]);
+            $bilan = Utils::getCurrentBilan($move->send_date, $move->point_of_sale_id);
             $move->bilan_id = $bilan->id;
         });
 

@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 use App\Filament\Widgets\DashboardCardWidget;
 use App\Filament\Widgets\LastTransactionWidget;
+use App\Utils\Utils;
 use Filament\Pages\Dashboard as BaseDashboard;
 use Filament\Widgets\Widget;
 use Filament\Widgets\WidgetConfiguration;
@@ -19,9 +20,11 @@ class Dashboard extends BaseDashboard
      */
     public function getWidgets(): array
     {
-        return [
+        return Utils::isPrint() ? [
             DashboardCardWidget::class,
             LastTransactionWidget::class
+        ] : [
+
         ];
     }
 }

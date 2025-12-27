@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('bilans', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(App\Models\PointOfSale::class)->constrained()->cascadeOnDelete();
             $table->double('total_external_move_amount')->default(0);
             $table->double('total_internal_move_amount')->default(0);
             $table->double('daily_report_amount')->default(0);

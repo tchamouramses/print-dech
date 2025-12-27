@@ -89,11 +89,6 @@ class ExternalMovesTable
                     ->visible(auth()->user()->isAdmin())
                     ->iconButton()
                     ->tooltip('Supprimer')
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
             ]);
     }
 }

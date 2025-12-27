@@ -41,11 +41,17 @@ class UsersTable
             ->recordActions([
                 Action::make('assign')
                     ->icon('heroicon-o-user')
-                    ->visible(fn($record) => Utils::isTransaction() &&  in_array($record->role, [UserRoleEnum::POINT_OF_SALES, UserRoleEnum::ADMIN]))
-                    ->disabled(fn($record) => PointOfSale::whereDoesntHave('users', fn($query) => $query->where('users.id', $record->id))->count() === 0)
+                    ->visible(fn($record) => Utils::isTransaction())
+                    ->disabled(function(User $record): bool
+                        {
+                            if ($record->role === UserRoleEnum::USER) {
+                                return $record->pointOfSales()->exists();
+                            }
+                            return PointOfSale::whereDoesntHave('users', fn($query) => $query->where('users.id', $record->id))->count() === 0;
+                        })
                     ->iconButton()
                     ->color('secondary')
-                    ->tooltip('Ajouter un agent')
+                    ->tooltip('Assignez un point de vente')
                     ->schema(function ($record) {
                         return [
                             Select::make('point_of_sale_id')
@@ -54,7 +60,7 @@ class UsersTable
                                 ->required()
                         ];
                     })
-                    ->modalHeading('Ajouter un agent')
+                    ->modalHeading('Assignez un point de vente')
                     ->modalWidth(Width::Small)
                     ->modalSubmitActionLabel('Ajouter')
                     ->modalCancelActionLabel('Annuler')
@@ -65,7 +71,6 @@ class UsersTable
                             ->success()
                             ->body('Agent ajouté au point de vente')
                             ->send();
-
                     }),
 
                 EditAction::make()->iconButton()
@@ -74,11 +79,7 @@ class UsersTable
                 DeleteAction::make()->iconButton()
                     ->tooltip('Supprimer')
                     ->disabled(fn ($record) => $record->id === auth()->id()),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
             ]);
     }
+
 }

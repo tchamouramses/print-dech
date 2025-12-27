@@ -15,13 +15,11 @@ class InternalMoveForm
 {
     public static function configure(Schema $schema): Schema
     {
-        $pointOfSales = auth()->user()->isAdmin() ? PointOfSale::all() : auth()->user()->pointOfSales()->get();
+        $pointOfSales = auth()->user()->isAdmin()
+            ? PointOfSale::all()
+            : auth()->user()->pointOfSales()->get();
         return $schema
             ->components([
-                TextInput::make('amount')
-                    ->label("Montant")
-                    ->required()
-                    ->numeric(),
                 Select::make('status')
                     ->label("Statut")
                     ->options(InternalMoveStatusEnum::class)
@@ -32,7 +30,13 @@ class InternalMoveForm
                     ->label("Point d'envoi")
                     ->required()
                     ->options($pointOfSales->pluck('name', 'id')->toArray())
+                    ->default($pointOfSales->first()?->id)
+                    ->disabled($pointOfSales->count() === 1)
                     ->searchable(),
+                TextInput::make('amount')
+                    ->label("Montant")
+                    ->required()
+                    ->numeric(),
                 Select::make('point_receiver_id')
                     ->label("Point de reception")
                     ->required()

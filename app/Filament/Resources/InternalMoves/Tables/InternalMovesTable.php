@@ -82,11 +82,6 @@ class InternalMovesTable
                 DeleteAction::make()
                     ->tooltip('Supprimer')
                     ->iconButton(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
             ]);
     }
 }

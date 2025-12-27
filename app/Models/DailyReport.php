@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utils\Utils;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,7 +17,7 @@ class DailyReport extends Model
         static::creating(function (DailyReport $report) {
             $report->user_id = Auth::id();
             $report->is_initial = !self::where('move_type_id', $report->move_type_id)->exists();
-            $bilan = Bilan::where('date', Carbon::parse($report->day)->format('Y-m-d'))->firstOrCreate(['date' => Carbon::parse($report->day)->format('Y-m-d')]);
+            $bilan = Utils::getCurrentBilan($report->day, $report->point_of_sale_id);
             $report->bilan_id = $bilan->id;
             $report->variation_amount = 0;
         });

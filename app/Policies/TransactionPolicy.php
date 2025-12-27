@@ -9,17 +9,12 @@ use App\Utils\Utils;
 
 class TransactionPolicy
 {
-    public function before(User $user, string $ability): bool|null
-    {
-        return Utils::isPrint() && $user->isAdmin();
-    }
-
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::USER]);
+        return Utils::isPrint() && in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::USER]);
     }
 
     /**
@@ -27,7 +22,7 @@ class TransactionPolicy
      */
     public function view(User $user, Transaction $transaction): bool
     {
-        return in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::USER]);
+        return Utils::isPrint() && in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::USER]);
     }
 
     /**
@@ -35,7 +30,7 @@ class TransactionPolicy
      */
     public function create(User $user): bool
     {
-        return in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::USER]);
+        return Utils::isPrint() && in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::USER]);
     }
 
     /**
@@ -43,7 +38,7 @@ class TransactionPolicy
      */
     public function update(User $user, Transaction $transaction): bool
     {
-        return in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::USER]);
+        return Utils::isPrint() && in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::USER]);
     }
 
     /**
@@ -51,7 +46,7 @@ class TransactionPolicy
      */
     public function delete(User $user, Transaction $transaction): bool
     {
-        return false;
+        return Utils::isPrint() && in_array($user->role, [UserRoleEnum::ADMIN]);
     }
 
     /**

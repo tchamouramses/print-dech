@@ -9,12 +9,13 @@ use App\Utils\Utils;
 
 class ExternalMovePolicy
 {
+    private array $roles = [UserRoleEnum::ADMIN, UserRoleEnum::POINT_OF_SALES, UserRoleEnum::USER];
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return Utils::isTransaction() && in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::POINT_OF_SALES]);
+        return Utils::isTransaction() && in_array($user->role, $this->roles);
     }
 
     /**
@@ -22,7 +23,7 @@ class ExternalMovePolicy
      */
     public function view(User $user, ExternalMove $externalMove): bool
     {
-        return Utils::isTransaction() && in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::POINT_OF_SALES]);
+        return Utils::isTransaction() && in_array($user->role, $this->roles);
     }
 
     /**
@@ -30,7 +31,7 @@ class ExternalMovePolicy
      */
     public function create(User $user): bool
     {
-        return Utils::isTransaction() && in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::POINT_OF_SALES]);
+        return Utils::isTransaction() && in_array($user->role, $this->roles);
     }
 
     /**
@@ -38,7 +39,7 @@ class ExternalMovePolicy
      */
     public function update(User $user, ExternalMove $externalMove): bool
     {
-        return Utils::isTransaction() && $user->role == UserRoleEnum::ADMIN;
+        return Utils::isTransaction() && in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::POINT_OF_SALES]);
     }
 
     /**
@@ -46,7 +47,7 @@ class ExternalMovePolicy
      */
     public function delete(User $user, ExternalMove $externalMove): bool
     {
-        return  Utils::isTransaction() && $user->isAdmin();
+        return  Utils::isTransaction() && in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::POINT_OF_SALES]);
     }
 
     /**

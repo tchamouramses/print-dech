@@ -9,12 +9,13 @@ use App\Utils\Utils;
 
 class DailyReportPolicy
 {
+    private array $roles = [UserRoleEnum::ADMIN, UserRoleEnum::POINT_OF_SALES, UserRoleEnum::USER];
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return Utils::isTransaction() && in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::POINT_OF_SALES]);
+        return Utils::isTransaction() && in_array($user->role, $this->roles);
     }
 
     /**
@@ -22,7 +23,7 @@ class DailyReportPolicy
      */
     public function view(User $user, DailyReport $dailyReport): bool
     {
-        return Utils::isTransaction() && in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::POINT_OF_SALES]);
+        return Utils::isTransaction() && in_array($user->role, $this->roles);
     }
 
     /**
@@ -30,7 +31,7 @@ class DailyReportPolicy
      */
     public function create(User $user): bool
     {
-        return Utils::isTransaction() && in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::POINT_OF_SALES]);
+        return Utils::isTransaction() && in_array($user->role, $this->roles);
     }
 
     /**
@@ -46,7 +47,7 @@ class DailyReportPolicy
      */
     public function delete(User $user, DailyReport $dailyReport): bool
     {
-        return $user->isAdmin();
+        return Utils::isTransaction() && in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::POINT_OF_SALES]);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Enums\ExternalMoveTypeEnum;
+use App\Utils\Utils;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -28,7 +29,7 @@ class ExternalMove extends Model
             if ($move->type === ExternalMoveTypeEnum::INCOME && $move->amount < 0){
                 $move->amount = -1 * $move->amount;
             }
-            $bilan = Bilan::where('date', Carbon::parse($move->date)->format('Y-m-d'))->firstOrCreate(['date' => Carbon::parse($move->date)->format('Y-m-d')]);
+            $bilan = Utils::getCurrentBilan($move->date, $move->point_of_sale_id);
             $move->bilan_id = $bilan->id;
         });
 

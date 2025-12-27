@@ -5,6 +5,7 @@ namespace App\Filament\Resources\ExternalMoves\Schemas;
 use App\Models\Client;
 use App\Models\Enums\ExternalMoveTypeEnum;
 use App\Models\ExternalMove;
+use App\Models\PointOfSale;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -15,8 +16,18 @@ class ExternalMoveForm
 {
     public static function configure(Schema $schema): Schema
     {
+        $pointOfSales = auth()->user()->isAdmin()
+            ? PointOfSale::all()
+            : auth()->user()->pointOfSales()->get();
         return $schema
             ->components([
+                Select::make('point_of_sale_id')
+                    ->label('Point de vente')
+                    ->options($pointOfSales->pluck('name', 'id')->toArray())
+                    ->default($pointOfSales->first()?->id)
+                    ->disabled($pointOfSales->count() === 1)
+                    ->searchable()
+                    ->required(),
                 TextInput::make('designation')
                     ->label('Designation')
                     ->required(),
@@ -28,19 +39,14 @@ class ExternalMoveForm
                     ->label('Montant')
                     ->required()
                     ->numeric(),
-                Select::make('point_of_sale_id')
-                    ->label('Point de vente')
-                    ->options(auth()->user()->pointOfSales()->pluck('name', 'point_of_sales.id as id')->toArray())
-                    ->searchable()
+                DateTimePicker::make('date')
+                    ->label('Date du mouvement de fond')
+                    ->default(now())
                     ->required(),
                 Select::make('client_id')
                     ->label('Client si existant')
                     ->options(Client::pluck('name', 'id')->toArray())
                     ->searchable(),
-                DateTimePicker::make('date')
-                    ->label('Date du mouvement de fond')
-                    ->default(now())
-                    ->required(),
                 Select::make('parent_id')
                     ->label('Parent si ce mouvement est causé par un précédent')
                     ->options(ExternalMove::pluck('designation as name', 'id')->toArray())

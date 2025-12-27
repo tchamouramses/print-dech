@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('range')->default(\App\Models\Enums\MoveRangeEnum::GLOBAL->value)->comment('take it to App\Models\Enums\MoveRangeEnum');
-            $table->boolean('is_positive')->default(false);
             $table->text('description')->nullable();
             $table->timestamps();
         });

@@ -45,11 +45,6 @@ class PointOfSalesTable
                     ->modalFooterActions([]),
                 EditAction::make()->iconButton()
                     ->tooltip('Modifier'),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
             ]);
     }
 }

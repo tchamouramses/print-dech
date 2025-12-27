@@ -165,8 +165,5 @@ class InternalMoveChart extends ChartWidget
             ],
         ];
     }
-    public function getTablePage(): string
-    {
-        return ListInternalMoves::class;
-    }
+
 }

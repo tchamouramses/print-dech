@@ -22,9 +22,6 @@ class MoveTypeForm
                     ->label('Portée')
                     ->required()
                     ->options(MoveRangeEnum::class),
-                Toggle::make('is_positive')
-                    ->label('Valeur positive')
-                    ->required(),
                 Textarea::make('description')
                     ->columnSpanFull(),
             ]);

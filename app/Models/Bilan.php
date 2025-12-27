@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Bilan extends Model
@@ -41,12 +42,18 @@ class Bilan extends Model
         $this->total_external_move_amount = $this->externalMoves()->sum('amount');
         $internalMoves = $this->internalMoves()->get();
         $this->total_internal_move_amount = 0;
+
         foreach ($internalMoves as $move) {
-            $this->total_internal_move_amount += ($move->moveType->is_positive ? 1 : -1) * $move->amount;
+            $this->total_internal_move_amount += ($this->point_of_sale_id === $move->point_sender_id ? 1 : -1) * $move->amount;
         }
 
         $this->save();
         $this->refresh();
         $this->generateGap();
+    }
+
+    public function pointOfSale(): BelongsTo
+    {
+        return $this->belongsTo(PointOfSale::class);
     }
 }
