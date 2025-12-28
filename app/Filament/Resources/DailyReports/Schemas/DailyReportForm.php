@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\DailyReports\Schemas;
 
 use App\Models\MoveType;
-use App\Models\PointOfSale;
+use App\Utils\Utils;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -13,9 +13,7 @@ class DailyReportForm
 {
     public static function configure(Schema $schema): Schema
     {
-        $pointOfSales = auth()->user()->isAdmin()
-            ? PointOfSale::all()
-            : auth()->user()->pointOfSales()->get();
+        $pointOfSales = Utils::pointOfSales();
         return $schema
             ->components([
                 Select::make('point_of_sale_id')

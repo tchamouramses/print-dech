@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\InternalMoves\Pages;
 
 use App\Filament\Resources\InternalMoves\InternalMoveResource;
-use App\Filament\Widgets\InternalMoveChart;
+use App\Filament\Widgets\DailyReportChart;
 use Filament\Actions\CreateAction;
 use Filament\Pages\Concerns\ExposesTableToWidgets;
 use Filament\Resources\Pages\ListRecords;

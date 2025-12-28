@@ -4,13 +4,14 @@ namespace App\Filament\Resources\InternalMoves\Tables;
 
 use App\Models\Enums\InternalMoveStatusEnum;
 use App\Models\InternalMove;
-use Filament\Actions\BulkActionGroup;
+use App\Utils\Utils;
 use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
@@ -18,7 +19,7 @@ class InternalMovesTable
 {
     public static function configure(Table $table): Table
     {
-        $pointOfSales = auth()->user()->pointOfSales()->pluck('point_of_sales.id')->toArray();
+        $pointOfSales = Utils::pointOfSales()->pluck('id')->toArray();
         return $table
             ->query(auth()->user()->isAdmin() ?
                 InternalMove::query()->latest() :
@@ -71,6 +72,17 @@ class InternalMovesTable
             ->filters([
                 SelectFilter::make('status')
                     ->options(InternalMoveStatusEnum::class),
+                Filter::make('date')
+                ->schema([
+                    DatePicker::make('start_date')->label("Periode debut"),
+                    DatePicker::make('end_date')->label("Periode Fin"),
+                ])
+                ->query(fn ($query, $data) => $query->when(isset($data['start_date']), function ($query) use ($data) {
+                    $query->whereDate('created_at', '>=', $data['start_date']);
+                })
+                ->when(isset($data['end_date']), function ($query) use ($data) {
+                    $query->whereDate('created_at', '<=', $data['end_date']);
+                }))
             ])
             ->recordActions([
                 ViewAction::make()

@@ -29,10 +29,12 @@
     'app.filament.resources.users.pages.edit-user' => 'App\\Filament\\Resources\\Users\\Pages\\EditUser',
     'app.filament.resources.users.pages.list-users' => 'App\\Filament\\Resources\\Users\\Pages\\ListUsers',
     'app.filament.pages.dashboard' => 'App\\Filament\\Pages\\Dashboard',
+    'app.filament.widgets.daily-report-chart' => 'App\\Filament\\Widgets\\DailyReportChart',
     'app.filament.widgets.dashboard-card-widget' => 'App\\Filament\\Widgets\\DashboardCardWidget',
     'app.filament.widgets.external-move-amount-widget' => 'App\\Filament\\Widgets\\ExternalMoveAmountWidget',
-    'app.filament.widgets.internal-move-chart' => 'App\\Filament\\Widgets\\InternalMoveChart',
     'app.filament.widgets.last-transaction-widget' => 'App\\Filament\\Widgets\\LastTransactionWidget',
+    'app.filament.widgets.list-daily-report-table' => 'App\\Filament\\Widgets\\ListDailyReportTable',
+    'app.filament.widgets.transaction-dashboard-card' => 'App\\Filament\\Widgets\\TransactionDashboardCard',
     'filament.livewire.database-notifications' => 'Filament\\Livewire\\DatabaseNotifications',
     'filament.auth.pages.edit-profile' => 'Filament\\Auth\\Pages\\EditProfile',
     'filament.livewire.global-search' => 'Filament\\Livewire\\GlobalSearch',
@@ -89,10 +91,12 @@
   ),
   'widgets' => 
   array (
+    '/home/txyxter/project/dechschool/print-dech/app/Filament/Widgets/DailyReportChart.php' => 'App\\Filament\\Widgets\\DailyReportChart',
     '/home/txyxter/project/dechschool/print-dech/app/Filament/Widgets/DashboardCardWidget.php' => 'App\\Filament\\Widgets\\DashboardCardWidget',
     '/home/txyxter/project/dechschool/print-dech/app/Filament/Widgets/ExternalMoveAmountWidget.php' => 'App\\Filament\\Widgets\\ExternalMoveAmountWidget',
-    '/home/txyxter/project/dechschool/print-dech/app/Filament/Widgets/InternalMoveChart.php' => 'App\\Filament\\Widgets\\InternalMoveChart',
     '/home/txyxter/project/dechschool/print-dech/app/Filament/Widgets/LastTransactionWidget.php' => 'App\\Filament\\Widgets\\LastTransactionWidget',
+    '/home/txyxter/project/dechschool/print-dech/app/Filament/Widgets/ListDailyReportTable.php' => 'App\\Filament\\Widgets\\ListDailyReportTable',
+    '/home/txyxter/project/dechschool/print-dech/app/Filament/Widgets/TransactionDashboardCard.php' => 'App\\Filament\\Widgets\\TransactionDashboardCard',
   ),
   'widgetDirectories' => 
   array (

@@ -6,14 +6,14 @@ use App\Models\Client;
 use App\Models\Enums\ExternalMoveTypeEnum;
 use App\Models\Enums\UserRoleEnum;
 use App\Models\ExternalMove;
-use App\Models\PointOfSale;
 use App\Models\User;
-use Filament\Actions\BulkActionGroup;
+use App\Utils\Utils;
 use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
@@ -71,12 +71,24 @@ class ExternalMovesTable
                 SelectFilter::make('point_of_sale_id')
                     ->label("Points de vente")
                     ->searchable()
-                    ->options(auth()->user()->isAdmin() ? PointOfSale::pluck('name', 'id')->toArray() : auth()->user()->pointOfSales()->get()->pluck('name', 'id')->toArray()),
+                    ->options(Utils::pointOfSales()->pluck('name', 'id')->toArray()),
                 SelectFilter::make('client_id')
                     ->label("Client")
                     ->searchable()
                     ->visible(auth()->user()->isAdmin())
                     ->options(Client::pluck('name', 'id')->toArray()),
+                Filter::make('date')
+                    ->schema([
+                        DatePicker::make('start_date')->label("Periode debut"),
+                        DatePicker::make('end_date')->label("Periode Fin"),
+                    ])
+                    ->query(fn ($query, $data) =>
+                        $query->when(isset($data['start_date']), function ($query) use ($data) {
+                            $query->whereDate('created_at', '>=', $data['start_date']);
+                        })->when(isset($data['end_date']), function ($query) use ($data) {
+                                $query->whereDate('created_at', '<=', $data['end_date']);
+                        })
+                    )
             ])
             ->recordActions([
                 ViewAction::make()

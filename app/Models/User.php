@@ -69,6 +69,16 @@ class User extends Authenticatable implements FilamentUser
         return $this->role === UserRoleEnum::ADMIN;
     }
 
+    public function isAgent(): bool
+    {
+        return $this->role === UserRoleEnum::USER;
+    }
+
+    public function isPointAdmin(): bool
+    {
+        return $this->role === UserRoleEnum::POINT_OF_SALES;
+    }
+
     public function pointOfSales(): BelongsToMany
     {
         return $this->belongsToMany(PointOfSale::class, 'point_of_sale_user');

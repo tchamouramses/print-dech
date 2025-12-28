@@ -5,11 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 class Bilan extends Model
 {
     protected $guarded = [];
 
+    protected  function casts(): array
+    {
+        return ['date' => 'date'];
+    }
     public function dailyReports(): HasMany
     {
         return $this->hasMany(DailyReport::class);
@@ -42,6 +47,15 @@ class Bilan extends Model
         $this->total_external_move_amount = $this->externalMoves()->sum('amount');
         $internalMoves = $this->internalMoves()->get();
         $this->total_internal_move_amount = 0;
+
+        $lastBilan = self::where('date', '<', $this->date)
+            ->where('point_of_sale_id', $this->point_of_sale_id)
+            ->latest('date')
+            ->first();
+
+        $this->daily_gap_amount = isset($lastBilan) ?
+            $this->daily_report_amount - ($lastBilan->daily_report_amount + $this->total_external_move_amount + $this->total_internal_move_amount)
+            : 0;
 
         foreach ($internalMoves as $move) {
             $this->total_internal_move_amount += ($this->point_of_sale_id === $move->point_sender_id ? 1 : -1) * $move->amount;

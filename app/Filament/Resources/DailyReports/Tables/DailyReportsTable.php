@@ -3,11 +3,9 @@
 namespace App\Filament\Resources\DailyReports\Tables;
 
 use App\Models\Enums\UserRoleEnum;
-use App\Models\PointOfSale;
 use App\Models\User;
-use Filament\Actions\BulkActionGroup;
+use App\Utils\Utils;
 use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Columns\TextColumn;
@@ -61,7 +59,7 @@ class DailyReportsTable
                     ->label("Points de vente")
                     ->hidden(auth()->user()->role === UserRoleEnum::USER)
                     ->searchable()
-                    ->options(auth()->user()->isAdmin() ? PointOfSale::pluck('name', 'id')->toArray() : auth()->user()->pointOfSales()->get()->pluck('name', 'id')->toArray()),
+                    ->options(Utils::pointOfSales()->pluck('name', 'id')->toArray()),
                 Filter::make('created_at')
                     ->label('Periode')
                     ->schema([

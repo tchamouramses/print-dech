@@ -3,8 +3,10 @@
 
  use App\Models\Bilan;
  use App\Models\Enums\ModuleTypeEnum;
+ use App\Models\PointOfSale;
  use Carbon\Carbon;
  use Filament\Support\Colors\Color;
+ use Illuminate\Support\Collection;
  use Illuminate\Support\Facades\Cache;
 
  class Utils
@@ -71,5 +73,12 @@
                      'point_of_sale_id' => $point_of_sale_id
                  ]
              );
+     }
+
+     public static function pointOfSales(): Collection
+     {
+         return auth()->user()->isAdmin()
+             ? PointOfSale::all()
+             : auth()->user()->pointOfSales()->get();
      }
  }
