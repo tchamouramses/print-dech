@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y curl
 RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY . .
-RUN composer install --no-interaction --no-dev --prefer-dist --no-scripts
+RUN composer install --no-interaction --prefer-dist --no-scripts
 
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
