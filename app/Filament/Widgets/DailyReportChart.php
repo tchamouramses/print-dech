@@ -22,13 +22,12 @@ class DailyReportChart extends ChartWidget
     {
         $date = $this->pageFilters['date'] ?? today()->format('Y-m-d');
         $pointOfSaleId = $this->pageFilters['point_of_sale_id'] ?? PointOfSale::query()->first()?->id;
-        $baseQuery = Bilan::where('point_of_sale_id', $pointOfSaleId ?? null)
-            ->latest();
+        $baseQuery = Bilan::where('point_of_sale_id', $pointOfSaleId);
 
         $trend = Trend::query((clone $baseQuery))
             ->between(Carbon::parse($date)->startOfDay(), Carbon::parse($date)->endOfDay())
             ->dateColumn('date')
-            ->perMonth();
+            ->perHour();
 
         $labels = (clone $trend)->count()->map(fn (TrendValue $value) => Carbon::parse($value->date)->format('d M'));
 
