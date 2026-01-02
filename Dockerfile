@@ -35,4 +35,5 @@ CMD sh -c "echo 'Waiting for database...'; \
     php artisan view:cache; \
     php artisan storage:link; \
     php artisan filament:optimize; \
+    php artisan package:discover; \
     exec apache2-foreground"
