@@ -23,7 +23,7 @@ class InternalMove extends Model
     {
         static::creating(function (InternalMove $move) {
             $move->sender_id = Auth::id();
-            $bilan = Utils::getCurrentBilan($move->send_date, $move->point_of_sale_id);
+            $bilan = Utils::getCurrentBilan($move->send_date, $move->point_sender_id);
             $move->bilan_id = $bilan->id;
         });
 
