@@ -30,15 +30,6 @@ class Bilan extends Model
         return $this->hasMany(ExternalMove::class);
     }
 
-    public function generateGap(): void
-    {
-        $lastBilan = self::whereNot('id', $this->id)->latest()->first();
-        if (isset($lastBilan)) {
-            $this->daily_gap_amount = $this->daily_report_amount - ($lastBilan->daily_report_amount + $this->total_external_move_amount + $lastBilan->total_internal_move_amount);
-            $this->save();
-        }
-    }
-
     public function regenerateAllMetrics(): void
     {
         $this->daily_report_amount = $this->dailyReports()->sum('amount');
@@ -64,7 +55,6 @@ class Bilan extends Model
 
         $this->save();
         $this->refresh();
-        $this->generateGap();
     }
 
     public function pointOfSale(): BelongsTo
