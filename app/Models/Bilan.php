@@ -45,7 +45,7 @@ class Bilan extends Model
         $this->daily_commission_amount = $this->dailyReports()->sum('commission_amount');
         $this->daily_tip_amount = $this->dailyReports()->sum('tip_amount');
         $this->total_external_move_amount = $this->externalMoves()->sum('amount');
-        $internalMoves = InternalMove::whereBetween('send_date', [Carbon::parse($this->date)->startOfDay(), Carbon::parse($this->date)->endOfDay()]);
+        $internalMoves = InternalMove::whereBetween('send_date', [Carbon::parse($this->date)->startOfDay(), Carbon::parse($this->date)->endOfDay()])->get();
         $this->total_internal_move_amount = 0;
 
         $lastBilan = self::where('date', '<=', $this->date)
