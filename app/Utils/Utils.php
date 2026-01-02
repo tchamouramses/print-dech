@@ -66,8 +66,8 @@
 
      public static function getCurrentBilan($date, $point_of_sale_id): Bilan
      {
-         $day = Carbon::parse($date);
-         return Bilan::whereBetween('date', [$day->startOfDay(), $day->endOfDay()])
+         $day = Carbon::parse($date)->format('Y-m-d');
+         return Bilan::where('date', $day)
              ->where('point_of_sale_id', $point_of_sale_id)
              ->firstOrCreate(
                  [
