@@ -20,12 +20,8 @@ RUN apt-get update && apt-get install -y curl
 RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY . .
-RUN composer install --no-interaction --no-dev --prefer-dist && \
-    php artisan config:cache && \
-    php artisan route:cache && \
-    php artisan view:cache && \
-    php artisan storage:link && \
-    php artisan filament:optimize
+RUN composer install --no-interaction --no-dev --prefer-dist
+
 
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
@@ -34,4 +30,9 @@ CMD sh -c "echo 'Waiting for database...'; \
     until nc -z -v -w30 $ID_SERVER_DB_HOST $ID_SERVER_DB_PORT; do sleep 5; done; \
     echo 'Database is up!'; \
     php artisan migrate --force; \
+    php artisan config:cache; \
+    php artisan route:cache; \
+    php artisan view:cache; \
+    php artisan storage:link; \
+    php artisan filament:optimize; \
     exec apache2-foreground"

@@ -14,7 +14,8 @@
      public const string MODULE_TYPE_CACHE_KEY = 'MODULE_TYPE_CACHE_KEY';
      public static function getType()
      {
-         return Cache::get(self::MODULE_TYPE_CACHE_KEY, function () {
+         $userId = auth()->check() ? auth()->id() : '';
+         return Cache::get(self::MODULE_TYPE_CACHE_KEY . $userId, function () {
              return ModuleTypeEnum::TRANSACTION->value;
          });
      }
@@ -36,7 +37,8 @@
 
      public static function setType(ModuleTypeEnum $type): void
      {
-         Cache::forever(self::MODULE_TYPE_CACHE_KEY, $type->value);
+         $userId = auth()->id();
+         Cache::forever(self::MODULE_TYPE_CACHE_KEY . $userId, $type->value);
      }
 
      public static function formatAmount(float $amount): string
