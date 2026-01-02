@@ -25,7 +25,7 @@ class ListDailyReportTable extends TableWidget
         $user_id = $this->pageFilters['user_id'] ?? null;
         $pointOfSaleId = $this->pageFilters['point_of_sale_id'] ?? PointOfSale::query()->first()?->id;
         return $table
-            ->query(fn () => DailyReport::whereBetween('date', [Carbon::parse($date)->startOfDay(), Carbon::parse($date)->endOfDay()])
+            ->query(fn () => DailyReport::whereBetween('day', [Carbon::parse($date)->startOfDay(), Carbon::parse($date)->endOfDay()])
                 ->when(function (Builder $query) use ($user_id) {
                     $query->where('user_id', $user_id);
                 })
