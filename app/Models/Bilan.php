@@ -45,21 +45,22 @@ class Bilan extends Model
         $this->daily_commission_amount = $this->dailyReports()->sum('commission_amount');
         $this->daily_tip_amount = $this->dailyReports()->sum('tip_amount');
         $this->total_external_move_amount = $this->externalMoves()->sum('amount');
-        $internalMoves = $this->internalMoves()->get();
+        $internalMoves = InternalMove::whereBetween('send_date', [Carbon::parse($this->date)->startOfDay(), Carbon::parse($this->date)->endOfDay()]);
         $this->total_internal_move_amount = 0;
 
-        $lastBilan = self::where('date', '<', $this->date)
+        $lastBilan = self::where('date', '<=', $this->date)
+            ->whereNot('id', $this->id)
             ->where('point_of_sale_id', $this->point_of_sale_id)
             ->latest('date')
             ->first();
 
-        $this->daily_gap_amount = isset($lastBilan) ?
-            $this->daily_report_amount - ($lastBilan->daily_report_amount + $this->total_external_move_amount + $this->total_internal_move_amount)
-            : 0;
-
         foreach ($internalMoves as $move) {
-            $this->total_internal_move_amount += ($this->point_of_sale_id === $move->point_sender_id ? 1 : -1) * $move->amount;
+            $this->total_internal_move_amount += (($this->point_of_sale_id == $move->point_sender_id ? -1 : ($this->point_of_sale_id == $move->point_receiver_id ? 1 : 0)) * $move->amount);
         }
+
+        $this->daily_gap_amount = isset($lastBilan) ?
+            $this->daily_report_amount - $lastBilan->daily_report_amount - ($this->total_external_move_amount + $this->total_internal_move_amount)
+            : 0;
 
         $this->save();
         $this->refresh();
