@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Enums\UserRoleEnum;
 use App\Utils\Utils;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
