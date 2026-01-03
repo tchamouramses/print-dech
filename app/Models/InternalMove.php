@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Enums\InternalMoveStatusEnum;
+use App\Models\Enums\UserRoleEnum;
 use App\Utils\Utils;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -22,8 +23,13 @@ class InternalMove extends Model
     protected static function booted(): void
     {
         static::creating(function (InternalMove $move) {
-            $move->sender_id = Auth::id();
-            $bilan = Utils::getCurrentBilan($move->send_date, $move->point_sender_id);
+            $user = Auth::user();
+            $move->sender_id = $user->id;
+            $pointOfSaleId = $move->point_sender_id;
+            if($user->role === UserRoleEnum::USER){
+                $pointOfSaleId = $user->pointOfSales()->first()?->id;
+            }
+            $bilan = Utils::getCurrentBilan($move->send_date, $pointOfSaleId);
             $move->bilan_id = $bilan->id;
         });
 

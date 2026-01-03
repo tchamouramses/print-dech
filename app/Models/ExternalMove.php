@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Enums\ExternalMoveTypeEnum;
+use App\Models\Enums\UserRoleEnum;
 use App\Utils\Utils;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -22,14 +23,20 @@ class ExternalMove extends Model
     protected static function booted(): void
     {
         static::creating(function (ExternalMove $move) {
-            $move->user_id = Auth::id();
             if ($move->type === ExternalMoveTypeEnum::OUT && $move->amount > 0){
                 $move->amount = -1 * $move->amount;
             }
             if ($move->type === ExternalMoveTypeEnum::INCOME && $move->amount < 0){
                 $move->amount = -1 * $move->amount;
             }
-            $bilan = Utils::getCurrentBilan($move->date, $move->point_of_sale_id);
+
+            $user = Auth::user();
+            $move->user_id = $user->id;
+            $pointOfSaleId = $move->point_of_sale_id;
+            if($user->role === UserRoleEnum::USER){
+                $pointOfSaleId = $user->pointOfSales()->first()?->id;
+            }
+            $bilan = Utils::getCurrentBilan($move->date, $pointOfSaleId);
             $move->bilan_id = $bilan->id;
         });
 
