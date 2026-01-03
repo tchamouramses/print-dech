@@ -25,11 +25,10 @@ class InternalMove extends Model
         static::creating(function (InternalMove $move) {
             $user = Auth::user();
             $move->sender_id = $user->id;
-            $pointOfSaleId = $move->point_sender_id;
             if($user->role === UserRoleEnum::USER){
-                $pointOfSaleId = $user->pointOfSales()->first()?->id;
+                $move->point_sender_id = $user->pointOfSales()->first()?->id;
             }
-            $bilan = Utils::getCurrentBilan($move->send_date, $pointOfSaleId);
+            $bilan = Utils::getCurrentBilan($move->send_date, $move->point_sender_id);
             $move->bilan_id = $bilan->id;
         });
 

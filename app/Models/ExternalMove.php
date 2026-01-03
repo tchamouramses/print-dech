@@ -32,11 +32,10 @@ class ExternalMove extends Model
 
             $user = Auth::user();
             $move->user_id = $user->id;
-            $pointOfSaleId = $move->point_of_sale_id;
             if($user->role === UserRoleEnum::USER){
-                $pointOfSaleId = $user->pointOfSales()->first()?->id;
+                $move->point_of_sale_id = $user->pointOfSales()->first()?->id;
             }
-            $bilan = Utils::getCurrentBilan($move->date, $pointOfSaleId);
+            $bilan = Utils::getCurrentBilan($move->date, $move->point_of_sale_id);
             $move->bilan_id = $bilan->id;
         });
 

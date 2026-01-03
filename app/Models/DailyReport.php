@@ -18,11 +18,10 @@ class DailyReport extends Model
             $report->is_initial = !self::where('move_type_id', $report->move_type_id)->exists();
             $user = Auth::user();
             $report->user_id = $user->id;
-            $pointOfSaleId = $report->point_of_sale_id;
             if($user->role === UserRoleEnum::USER){
-                $pointOfSaleId = $user->pointOfSales()->first()?->id;
+                $report->point_of_sale_id = $user->pointOfSales()->first()?->id;
             }
-            $bilan = Utils::getCurrentBilan($report->day, $pointOfSaleId);
+            $bilan = Utils::getCurrentBilan($report->day, $report->point_of_sale_id);
             $report->bilan_id = $bilan->id;
             $report->variation_amount = 0;
         });
