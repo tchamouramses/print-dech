@@ -43,16 +43,16 @@ class ExternalMove extends Model
         });
 
         static::created(function (ExternalMove $move) {
-            $move->bilan->regenerateAllMetrics();
+            $move->bilan->regenerateAllMetrics(false);
         });
 
         static::updated(function (ExternalMove $move) {
-            $move->bilan->regenerateAllMetrics();
+            $move->bilan->regenerateAllMetrics(false);
         });
 
         static::deleted(function (ExternalMove $move) {
             $bilan = Bilan::find($move->bilan_id);
-            $bilan->regenerateAllMetrics();
+            $bilan->regenerateAllMetrics(false);
         });
     }
 

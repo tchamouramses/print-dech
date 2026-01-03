@@ -14,12 +14,17 @@ class TransactionDashboardCard extends StatsOverviewWidget
     use InteractsWithPageFilters;
     protected function getStats(): array
     {
-        $date = $this->pageFilters['date'] ?? today()->format('Y-m-d');
+        $date = $this->pageFilters['date'] ?? today()->endOfDay();
         $pointOfSaleId = $this->pageFilters['point_of_sale_id'] ?? PointOfSale::query()->first()?->id;
-        $bilan = Bilan::where('date', Carbon::parse($date)->format('Y-m-d'))
-                    ->where('point_of_sale_id', $pointOfSaleId ?? null)
-                    ->first();
-        $oldsBilanQuery = Bilan::where('date', '<', Carbon::parse($date)->format('Y-m-d'))
+
+        $day = Carbon::parse($date);
+        $bilan = Bilan::whereYear('date', $day->year)
+            ->whereMonth('date', $day->month)
+            ->whereDay('date', $day->day)
+            ->where('point_of_sale_id', $pointOfSaleId ?? null)
+            ->first();
+
+        $oldsBilanQuery = Bilan::where('date', '<', Carbon::parse($date))
             ->where('point_of_sale_id', $pointOfSaleId ?? null);
         return [
             Stat::make(
@@ -27,7 +32,7 @@ class TransactionDashboardCard extends StatsOverviewWidget
                 value: 'XAF ' . ($bilan?->daily_gap_amount ?? 0),
             )->description('Montant ecart entre le bilan du jour et le precedent bilan')
                 ->chart((clone $oldsBilanQuery)->pluck('daily_gap_amount')->toArray())
-                ->color(($bilan?->daily_gap_amount ?? 0) > 0 ? 'danger' : 'success'),
+                ->color(($bilan?->daily_gap_amount ?? 0) < 0 ? 'danger' : 'success'),
             Stat::make(
                 label: 'Montant commission',
                 value: 'XAF ' . ($bilan?->daily_commission_amount ?? 0),

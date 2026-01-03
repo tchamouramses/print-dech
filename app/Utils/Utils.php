@@ -8,6 +8,7 @@
  use Filament\Support\Colors\Color;
  use Illuminate\Support\Collection;
  use Illuminate\Support\Facades\Cache;
+ use Illuminate\Support\Facades\Log;
 
  class Utils
  {
@@ -66,15 +67,18 @@
 
      public static function getCurrentBilan($date, $point_of_sale_id): Bilan
      {
-         $day = Carbon::parse($date)->format('Y-m-d');
-         return Bilan::where('date', $day)
+         $day = Carbon::parse($date);
+
+         $bilan = Bilan::whereYear('date', $day->year)
+             ->whereMonth('date', $day->month)
+             ->whereDay('date', $day->day)
              ->where('point_of_sale_id', $point_of_sale_id)
-             ->firstOrCreate(
-                 [
-                     'date' => Carbon::parse($day)->format('Y-m-d'),
-                     'point_of_sale_id' => $point_of_sale_id
-                 ]
-             );
+             ->first();
+
+         return $bilan ?? Bilan::create([
+             'date' => $day,
+             'point_of_sale_id' => $point_of_sale_id
+         ]);
      }
 
      public static function pointOfSales(): Collection

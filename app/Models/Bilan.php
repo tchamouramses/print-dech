@@ -30,7 +30,7 @@ class Bilan extends Model
         return $this->hasMany(ExternalMove::class);
     }
 
-    public function regenerateAllMetrics(): void
+    public function regenerateAllMetrics($generateOtherMetrics = true): void
     {
         $this->daily_report_amount = $this->dailyReports()->sum('amount');
         $this->daily_commission_amount = $this->dailyReports()->sum('commission_amount');
@@ -55,6 +55,20 @@ class Bilan extends Model
 
         $this->save();
         $this->refresh();
+        if($generateOtherMetrics) {
+            $this->generateAllBilanOfDay();
+        }
+    }
+
+    public function generateAllBilanOfDay(){
+        Bilan::whereYear('date', $this->date->year)
+            ->whereMonth('date', $this->date->month)
+            ->whereDay('date', $this->date->day)
+            ->whereNot('id', $this->id)
+            ->get()
+            ->each(function (Bilan $bilan) {
+                $bilan->regenerateAllMetrics(false);
+            });
     }
 
     public function pointOfSale(): BelongsTo

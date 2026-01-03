@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Enums\MoveRangeEnum;
+use App\Models\MoveType;
+use App\Models\PointOfSale;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -17,6 +20,26 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             ProfilSeeder::class,
+        ]);
+
+        PointOfSale::create([
+            'name' => 'Baleving'
+        ]);
+        PointOfSale::create([
+            'name' => 'Dschang'
+        ]);
+        PointOfSale::create([
+            'name' => 'Penka Michel'
+        ]);
+
+        MoveType::create([
+            'name' => 'Espece',
+            'range' => MoveRangeEnum::INTERNAL->value,
+        ]);
+
+        MoveType::create([
+            'name' => 'Flotte',
+            'range' => MoveRangeEnum::INTERNAL->value,
         ]);
     }
 }

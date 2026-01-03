@@ -23,16 +23,16 @@ class DailyReport extends Model
         });
 
         static::created(function (DailyReport $report) {
-            $report->bilan->regenerateAllMetrics();
+            $report->bilan->regenerateAllMetrics(false);
         });
 
         static::updated(function (DailyReport $report) {
-            $report->bilan->regenerateAllMetrics();
+            $report->bilan->regenerateAllMetrics(false);
         });
 
         static::deleted(function (DailyReport $report) {
             $bilan = Bilan::find($report->bilan_id);
-            $bilan->regenerateAllMetrics();
+            $bilan->regenerateAllMetrics(false);
         });
     }
 
