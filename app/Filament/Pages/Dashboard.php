@@ -7,7 +7,6 @@ use App\Filament\Widgets\DashboardCardWidget;
 use App\Filament\Widgets\LastTransactionWidget;
 use App\Filament\Widgets\ListDailyReportTable;
 use App\Filament\Widgets\TransactionDashboardCard;
-use App\Models\User;
 use App\Utils\Utils;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
@@ -28,22 +27,19 @@ class Dashboard extends BaseDashboard
             ->components([
                 Section::make()
                     ->schema([
-                        Select::make('point_of_sale_id')
+                        Select::make('point_of_sale_ids')
                             ->label('Point de vente')
                             ->searchable()
                             ->placeholder('Selectionner un point de vente')
                             ->options($pointOfSales->pluck('name', 'id')->toArray())
+                            ->multiple()
                             ->required(),
-                        DatePicker::make('date')
+                        DatePicker::make('start_date')
                             ->displayFormat('d-m-Y')
-                            ->default(now())
-                            ->label('Choisir une date'),
-                        Select::make('user_id')
-                            ->label('Agent')
-                            ->placeholder('Selectionner un agent')
-                            ->hidden(auth()->user()->isAgent())
-                            ->searchable()
-                            ->options(User::all()->pluck('name', 'id')->toArray()),
+                            ->label('Debut periode'),
+                        DatePicker::make('end_date')
+                            ->displayFormat('d-m-Y')
+                            ->label('Fin periode'),
                     ])
                 ->columnSpanFull()
                 ->columns(auth()->user()->isAgent() ? 2 : 3),

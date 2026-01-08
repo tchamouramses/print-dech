@@ -14,7 +14,7 @@ class TransactionPolicy
      */
     public function viewAny(User $user): bool
     {
-        return Utils::isPrint() && in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::USER]);
+        return Utils::isPrint();
     }
 
     /**
@@ -22,7 +22,7 @@ class TransactionPolicy
      */
     public function view(User $user, Transaction $transaction): bool
     {
-        return Utils::isPrint() && in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::USER]);
+        return Utils::isPrint();
     }
 
     /**
@@ -30,7 +30,7 @@ class TransactionPolicy
      */
     public function create(User $user): bool
     {
-        return Utils::isPrint() && in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::USER]);
+        return Utils::isPrint();
     }
 
     /**
@@ -38,7 +38,7 @@ class TransactionPolicy
      */
     public function update(User $user, Transaction $transaction): bool
     {
-        return Utils::isPrint() && in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::USER]);
+        return Utils::isPrint();
     }
 
     /**

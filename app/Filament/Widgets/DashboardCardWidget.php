@@ -4,6 +4,7 @@ namespace App\Filament\Widgets;
 
 use App\Models\Client;
 use App\Models\Transaction;
+use App\Utils\Utils;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
@@ -14,7 +15,7 @@ class DashboardCardWidget extends StatsOverviewWidget
         return [
             Stat::make(
                 label: 'Montant Total transactions',
-                value: 'XAF ' . Transaction::query()->sum('amount'),
+                value: Utils::formatAmount(Transaction::query()->sum('amount')),
             )->description('Montant total des transactions')
             ->descriptionColor('secondary'),
             Stat::make(

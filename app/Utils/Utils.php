@@ -44,7 +44,7 @@
 
      public static function formatAmount(float $amount): string
      {
-         return number_format($amount, 0, '.', ' ');
+         return number_format($amount, 0, '.', ' ') . ' FCFA';
      }
 
      public static function getModuleColor(): array

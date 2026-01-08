@@ -3,7 +3,7 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Bilan;
-use App\Models\PointOfSale;
+use App\Utils\Utils;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
@@ -14,36 +14,34 @@ class TransactionDashboardCard extends StatsOverviewWidget
     use InteractsWithPageFilters;
     protected function getStats(): array
     {
-        $date = $this->pageFilters['date'] ?? today()->endOfDay();
-        $pointOfSaleId = $this->pageFilters['point_of_sale_id'] ?? PointOfSale::query()->first()?->id;
+        $startDate = Carbon::parse($this->pageFilters['start_date'] ?? today()->format('Y-m-d'))->startOfDay();
+        $endDate = Carbon::parse($this->pageFilters['end_date'] ?? today()->format('Y-m-d'))->endOfDay();
+        $pointOfSaleIds = $this->pageFilters['point_of_sale_ids'];
 
-        $day = Carbon::parse($date);
-        $bilan = Bilan::whereYear('date', $day->year)
-            ->whereMonth('date', $day->month)
-            ->whereDay('date', $day->day)
-            ->where('point_of_sale_id', $pointOfSaleId ?? null)
-            ->first();
+        $bilans = Bilan::whereBetween('date', [$startDate, $endDate])
+            ->whereIn('point_of_sale_id', $pointOfSaleIds)
+            ->get();
 
-        $oldsBilanQuery = Bilan::where('date', '<', Carbon::parse($date))
-            ->where('point_of_sale_id', $pointOfSaleId ?? null);
+        $oldsBilanQuery = Bilan::where('date', '<=', $endDate)
+            ->whereIn('point_of_sale_ids', $pointOfSaleIds);
         return [
             Stat::make(
                 label: 'Ecart',
-                value: 'XAF ' . ($bilan?->daily_gap_amount ?? 0),
+                value: Utils::formatAmount($bilans->sum('daily_gap_amount')),
             )->description('Montant ecart entre le bilan du jour et le precedent bilan')
                 ->chart((clone $oldsBilanQuery)->pluck('daily_gap_amount')->toArray())
-                ->color(($bilan?->daily_gap_amount ?? 0) < 0 ? 'danger' : 'success'),
+                ->color(($bilans->sum('daily_gap_amount')) < 0 ? 'danger' : 'success'),
             Stat::make(
                 label: 'Montant commission',
-                value: 'XAF ' . ($bilan?->daily_commission_amount ?? 0),
+                value: Utils::formatAmount($bilans->sum('daily_commission_amount')),
             )->description('Montant total de commission')
                 ->chart((clone $oldsBilanQuery)->pluck('daily_commission_amount')->toArray())
                 ->color('primary'),
             Stat::make(
                 label: 'Montant pourboire',
-                value: 'XAF ' . ($bilan?->daily_tip_amount ?? 0),
-            )->description('Montant total pourboire')
-                ->chart((clone $oldsBilanQuery)->pluck('daily_tip_amount')->toArray())
+                value: Utils::formatAmount($bilans->sum('daily_report_amount')),
+            )->description('Montant total caisse')
+                ->chart((clone $oldsBilanQuery)->pluck('daily_report_amount')->toArray())
                 ->color('primary'),
         ];
     }

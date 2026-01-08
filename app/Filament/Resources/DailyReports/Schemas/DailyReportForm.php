@@ -2,11 +2,14 @@
 
 namespace App\Filament\Resources\DailyReports\Schemas;
 
+use App\Models\DailyReport;
 use App\Models\MoveType;
+use App\Models\PointOfSale;
 use App\Utils\Utils;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 
 class DailyReportForm
@@ -22,10 +25,19 @@ class DailyReportForm
                     ->searchable()
                     ->default($pointOfSales->first()?->id)
                     ->disabled($pointOfSales->count() === 1)
+                    ->live()
                     ->required(),
                 Select::make('move_type_id')
                     ->label("Type")
                     ->options(MoveType::pluck('name', 'id')->toArray())
+                    ->options(function (Get $get): array {
+                        $existingMoveTypeIds = DailyReport::whereYear('day', today()->year)
+                            ->whereMonth('day', today()->month)
+                            ->whereDay('day', today()->day)
+                            ->where('point_of_sale_id', $get('point_of_sale_id'))
+                            ->pluck('move_type_id');
+                        return MoveType::whereNotIn('id', $existingMoveTypeIds)->pluck('name', 'id')->toArray();
+                    })
                     ->searchable()
                     ->required(),
                 TextInput::make('amount')

@@ -19,7 +19,7 @@ class ContactPolicy
      */
     public function viewAny(User $user): bool
     {
-        return Utils::isPrint() && in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::USER]);
+        return Utils::isPrint();
     }
 
     /**
@@ -27,7 +27,7 @@ class ContactPolicy
      */
     public function view(User $user, Contact $contact): bool
     {
-        return Utils::isPrint() && in_array($user->role, [UserRoleEnum::ADMIN, UserRoleEnum::USER]);
+        return Utils::isPrint();
     }
 
     /**
