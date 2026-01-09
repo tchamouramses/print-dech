@@ -11,6 +11,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\Operation;
 
 class DailyReportForm
 {
@@ -30,7 +31,8 @@ class DailyReportForm
                 Select::make('move_type_id')
                     ->label("Type")
                     ->options(MoveType::pluck('name', 'id')->toArray())
-                    ->options(function (Get $get): array {
+                    ->visibleOn(Operation::Create)
+                    ->options(function (Get $get) :array {
                         $existingMoveTypeIds = DailyReport::whereYear('day', today()->year)
                             ->whereMonth('day', today()->month)
                             ->whereDay('day', today()->day)
