@@ -38,7 +38,7 @@ class TransactionDashboardCard extends StatsOverviewWidget
                 ->chart((clone $oldsBilanQuery)->pluck('daily_commission_amount')->toArray())
                 ->color('primary'),
             Stat::make(
-                label: 'Montant pourboire',
+                label: 'Montant total',
                 value: Utils::formatAmount($bilans->sum('daily_report_amount')),
             )->description('Montant total caisse')
                 ->chart((clone $oldsBilanQuery)->pluck('daily_report_amount')->toArray())
