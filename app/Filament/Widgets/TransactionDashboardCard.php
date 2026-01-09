@@ -23,7 +23,7 @@ class TransactionDashboardCard extends StatsOverviewWidget
             ->get();
 
         $oldsBilanQuery = Bilan::where('date', '<=', $endDate)
-            ->whereIn('point_of_sale_ids', $pointOfSaleIds);
+            ->whereIn('point_of_sale_id', $pointOfSaleIds);
         return [
             Stat::make(
                 label: 'Ecart',
