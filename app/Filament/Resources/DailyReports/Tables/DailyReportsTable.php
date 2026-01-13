@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\DailyReports\Tables;
 
+use App\Models\DailyReport;
 use App\Models\Enums\UserRoleEnum;
 use App\Models\User;
 use App\Utils\Utils;
@@ -18,6 +19,7 @@ class DailyReportsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->query(DailyReport::query()->latest('day'))
             ->columns([
                 TextColumn::make('amount')
                     ->label("Montant")
