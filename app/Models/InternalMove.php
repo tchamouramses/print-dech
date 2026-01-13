@@ -40,16 +40,22 @@ class InternalMove extends Model
         });
 
         static::created(function (InternalMove $move) {
+            $bilan = Utils::getCurrentBilan($move->send_date, $move->point_receiver_id);
+            $bilan->regenerateAllMetrics();
             $move->bilan->regenerateAllMetrics();
         });
 
         static::updated(function (InternalMove $move) {
             $move->bilan->regenerateAllMetrics();
+            $bilan = Utils::getCurrentBilan($move->send_date, $move->point_receiver_id);
+            $bilan->regenerateAllMetrics();
         });
 
         static::deleted(function (InternalMove $move) {
             $bilan = Bilan::find($move->bilan_id);
+            $bilan2 = Utils::getCurrentBilan($move->send_date, $move->point_receiver_id);
             $bilan->regenerateAllMetrics();
+            $bilan2->regenerateAllMetrics();
         });
     }
 
