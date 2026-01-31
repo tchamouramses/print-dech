@@ -78,10 +78,10 @@ class InternalMovesTable
                     DatePicker::make('end_date')->label("Periode Fin"),
                 ])
                 ->query(fn ($query, $data) => $query->when(isset($data['start_date']), function ($query) use ($data) {
-                    $query->whereDate('created_at', '>=', $data['start_date']);
+                    $query->whereDate('send_date', '>=', $data['start_date']);
                 })
                 ->when(isset($data['end_date']), function ($query) use ($data) {
-                    $query->whereDate('created_at', '<=', $data['end_date']);
+                    $query->whereDate('send_date', '<=', $data['end_date']);
                 }))
             ])
             ->recordActions([
