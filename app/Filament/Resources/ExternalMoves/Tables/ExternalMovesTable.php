@@ -84,9 +84,9 @@ class ExternalMovesTable
                     ])
                     ->query(fn ($query, $data) =>
                         $query->when(isset($data['start_date']), function ($query) use ($data) {
-                            $query->whereDate('created_at', '>=', $data['start_date']);
+                            $query->whereDate('date', '>=', $data['start_date']);
                         })->when(isset($data['end_date']), function ($query) use ($data) {
-                                $query->whereDate('created_at', '<=', $data['end_date']);
+                                $query->whereDate('date', '<=', $data['end_date']);
                         })
                     )
             ])
