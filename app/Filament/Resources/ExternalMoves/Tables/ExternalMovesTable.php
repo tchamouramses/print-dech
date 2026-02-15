@@ -22,9 +22,7 @@ class ExternalMovesTable
     public static function configure(Table $table): Table
     {
         return $table
-            ->query(auth()->user()->isAdmin() ?
-                ExternalMove::query()->latest() :
-                auth()->user()->externalMoves()->getQuery()->latest())
+            ->query(ExternalMove::query()->latest())
             ->columns([
                 TextColumn::make('designation')
                     ->searchable(),
@@ -50,7 +48,6 @@ class ExternalMovesTable
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('user.name')
                     ->label('Agent')
-                    ->visible(auth()->user()->isAdmin())
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('date')
